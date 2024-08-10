@@ -1,0 +1,134 @@
+.catalog__container_top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1180;
+  background-color: rgba(72, 66, 131, 1);
+}
+
+.container__top_box {
+  position: relative;
+  padding-top: 100px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1180px;
+  
+  height: 500px;
+  gap: 30px;
+  background-color: rgba(72, 66, 131, 1);
+}
+
+.top__box_content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  z-index: 10;
+  bottom:120px;
+  width: 100%;
+}
+.box__content_h1 {
+  color: rgba(255, 255, 255, 1);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 50px;
+  text-align: left;
+  width: 100%;
+  max-width: 550px;
+  margin-bottom: 0;
+  
+}
+.box__content_h2 {
+  color: rgba(255, 255, 255, 1);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  max-width: 480px;
+  width: 100%;
+  min-height: 48px;
+}
+
+.top__background_text {
+  pointer-events: none;
+  left: 0;
+  position: absolute;
+  font-size: 200px;
+  font-weight: 700;
+  line-height: 300px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.12);
+  max-width: 1180px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.box__content_button {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 207px;
+  height: 62px;
+  padding: 20px 40px 20px 40px;
+  gap: 10px;
+  border-radius: 4px;
+  background-color: rgba(241, 79, 79, 1);
+  color: rgba(255, 255, 255, 1);
+ 
+}
+
+@media (max-width: 1400px) {
+  .top__background_text {
+    font-size: 10vw;
+  }
+}
+
+@media (max-width: 1024px) {
+  .top__background_text {
+    font-size: 10vw;
+  }
+  .container__top_box {
+    justify-content: center;
+  }
+  .top__box_content {
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  .box__content_h1 {   
+    font-size: 26px;
+    
+  }
+  .box__content_h2 {   
+    font-size: 14px;
+    
+  }
+}
+
+@media (max-width: 475px) {
+  .catalog__container_top {
+    max-width: 475px;
+  }
+}
+
+@media (max-width: 320px) {
+  .catalog__container_top {
+    max-width: 320px;
+  }
+  .top__background_text {
+    font-size: 10vw;
+  }
+
+  .box__content_h1 {
+    font-size: 20px;
+  }
+
+  .box__content_h2 {
+    font-size: 14px;
+  }
+}

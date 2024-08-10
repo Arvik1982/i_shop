@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CardIcon from "../Icons/CardIcon";
-import styles from "./products.module.css";
+import styles from "./listProducts.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import AddProductQuantity from "../AddProductQuantity/AddProductQuantity";
 import { onKeyEnterDown } from "../../helpers/onEnterClick";

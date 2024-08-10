@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { productArr } from "../../mock/products";
-import styles from "./products.module.css";
-import ProductListItem from "./ProductListItem";
+import styles from "./listProducts.module.css";
+import ProductListItem from "./ListProductsItem";
 import { TPropsLink } from "../../types/propsTypes";
 
 export default function Products({ link, setLink }: TPropsLink) {

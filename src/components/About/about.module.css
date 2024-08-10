@@ -46,7 +46,7 @@
   font-weight: 600;
   line-height: 24px;
   text-align: left;
-  max-width: 480px;
+  max-width: 350px;
   width: 100%;
   min-height: 48px;
 }
@@ -54,6 +54,7 @@
 .top__background_text {
   pointer-events: none;
   left: 0;
+  top: 130px;
   position: absolute;
   font-size: 200px;
   font-weight: 700;

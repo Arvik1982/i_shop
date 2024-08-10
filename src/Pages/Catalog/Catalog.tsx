@@ -1,6 +1,6 @@
 import About from "../../components/About/About";
 import styles from "./catalog.module.css";
-import Products from "../../components/Products/Products";
+import Products from "../../components/ListProducts/ListProducts";
 import AnswersFaq from "../../components/AnswersFaq/AnswersFaq";
 import { TPropsLink } from "../../types/propsTypes";
 import { Helmet } from "react-helmet-async";

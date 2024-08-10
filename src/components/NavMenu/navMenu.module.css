@@ -1,10 +1,10 @@
 .header__container_nav {
   display: flex;
   height: 20px;
-  gap: 40px;
+  gap: 45px;
 }
 .container__nav_link {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 20px;
   text-align: left;

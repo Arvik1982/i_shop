@@ -5,7 +5,7 @@
   max-height: 714px;
   height: 100%;
   gap: 24px;
-  margin-top: 140px;
+  margin-top: 50px;
   margin-bottom: 160px;
 }
 
@@ -24,7 +24,6 @@
   max-width: 520px;
   width: 100%;
   min-height: 600px;
-
   gap: 10px;
 }
 
@@ -239,6 +238,7 @@
     max-height: 100%;
     padding: 5px;
     align-items: center;
+    margin: 0;
   }
 
   .product__container_content {
@@ -260,6 +260,9 @@
     width: 98%;
     height: 60px;
     justify-content: space-between;
+  }
+  .content__img_box {
+    min-height: 0;
   }
 }
 

@@ -9,6 +9,7 @@
   font-weight: 400;
   line-height: 22.4px;
   text-align: center;
+  width: 188px;
 }
 .bottom__right_button {
   justify-content: center;
@@ -69,12 +70,14 @@
     width: 40px;
     height: 40px;
   }
+  .right__change_box {
+    width: fit-content;
+  }
 }
 @media (max-width: 425px) {
   .right__change_box {
-    display: flex;
+    width: fit-content;
     flex-direction: column;
-    max-height: none;
   }
 
   .change__box_count {

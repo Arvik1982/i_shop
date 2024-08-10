@@ -29,7 +29,7 @@ export default function Cart() {
         <section className={styles.container__content_left}>
           {mockArr.map((el, index) => {
             return (
-              <article key={index}>
+              <article className={styles.left__product_box} key={index}>
                 {" "}
                 <ProductInLine key={el.id} item={el} />
               </article>

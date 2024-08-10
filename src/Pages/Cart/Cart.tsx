@@ -1,4 +1,3 @@
-
 import { Helmet } from "react-helmet-async";
 import ProductInLine from "../../components/ProductInLine/ProductInLine";
 import { productArr } from "../../mock/products";
@@ -28,7 +27,7 @@ export default function Cart() {
       </div>
       <main className={styles.cart__container_content}>
         <section className={styles.container__content_left}>
-          {mockArr.map((el,index) => {
+          {mockArr.map((el, index) => {
             return (
               <article key={index}>
                 {" "}

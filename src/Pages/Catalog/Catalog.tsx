@@ -5,7 +5,6 @@ import AnswersFaq from "../../components/AnswersFaq/AnswersFaq";
 import { TPropsLink } from "../../types/propsTypes";
 import { Helmet } from "react-helmet-async";
 
-
 export default function Catalog({ link, setLink }: TPropsLink) {
   return (
     <>

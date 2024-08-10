@@ -1,33 +1,23 @@
 * {
-  
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; }
-  button:focus{
-    border:2px solid rgb(47, 43, 43);
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+button:focus {
+  border: 2px solid rgb(47, 43, 43);
+}
 
-  @font-face {
-    font-family: 'Jost' , Arial, sans-serif;
-    src: url('./fonts/jost-v15-latin-regular.woff2') format('woff2');
-    src: url('./fonts/jost-v15-latin-600.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-
-    font-display: swap;
-  }
-
+@font-face {
+  font-family: "Jost";
+  src: url("./fonts/jost-v15-latin-regular.woff2") format("woff2");
+  src: url("./fonts/jost-v15-latin-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  /* font-family: "Jost", Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
-
-
+  font-family: 'Jost';
   width: 100%;
   --SpaceXS: 8px;
   --SpaceXL: 24px;
@@ -37,7 +27,6 @@
 }
 
 a {
-
   text-decoration: inherit;
 }
 
@@ -50,9 +39,9 @@ button {
   font-family: inherit;
   background-color: rgba(241, 79, 79, 1);
   cursor: pointer;
-  transition: border-color 0.25s; 
-  -webkit-transition: border-color 0.25s; 
-  -moz-transition: border-color 0.25s; 
+  transition: border-color 0.25s;
+  -webkit-transition: border-color 0.25s;
+  -moz-transition: border-color 0.25s;
 }
 
 button:hover {
@@ -65,11 +54,9 @@ button:disabled {
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color; 
-  outline: 4px auto focus-ring-color; 
-  
+  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px auto focus-ring-color;
 }
-
 
 link {
   font-size: 14px;
@@ -103,6 +90,6 @@ input {
   text-align: left;
   color: rgba(68, 75, 88, 1);
 }
-body{
-  font-family: 'Jost', Arial, sans-serif;
+body {
+  font-family: "Jost", Arial, sans-serif;
 }

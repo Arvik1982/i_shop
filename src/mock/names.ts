@@ -5,8 +5,8 @@ export const appTitle = {
 };
 
 export const appTitleNav = [
-  { name: "Catalog", icon: "", path:'/' },
-  { name: "FAQ", icon: "",  path:'/' },
-  { name: "Cart", icon: CardIcon,  path:'Cart' },
-  { name: "Johnson Smith", icon: "",  path:'#' },
+  { name: "Catalog", icon: "", path: "/" },
+  { name: "FAQ", icon: "", path: "/" },
+  { name: "Cart", icon: CardIcon, path: "Cart" },
+  { name: "Johnson Smith", icon: "", path: "#" },
 ];

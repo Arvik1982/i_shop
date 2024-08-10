@@ -28,7 +28,7 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
       {menuNames.map((el, index) => {
         return (
           <Link
-            tabIndex={0}        
+            tabIndex={0}
             aria-label={`link to ${el.name} page`}
             onKeyDown={(e) => {
               onKeyEnterDown(e, () => handleLinkClick(el.name));
@@ -40,8 +40,8 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
             className={styles.container__nav_link}
             to={`${el.path.toLowerCase()}`}
           >
-            <div  className={styles.container__nav_item}>
-              <div tabIndex={el.name!=='Cart'?-1:0}>{el.name}</div>
+            <div className={styles.container__nav_item}>
+              <div tabIndex={el.name !== "Cart" ? -1 : 0}>{el.name}</div>
               {el.icon && <el.icon />}
               {el.name === "Cart" && goodsInCart && (
                 <div className={styles.nav__item_active}>{goodsInCart}</div>

@@ -21,7 +21,10 @@ export default function Product() {
     <main className={styles.product__container}>
       <Helmet>
         <title> Essence Mascara Lash Princess | Goods4yo</title>
-        <meta name="description" content="Any products from famous brands with worldwide delivery" />
+        <meta
+          name="description"
+          content="Any products from famous brands with worldwide delivery"
+        />
       </Helmet>
       <section className={styles.product__container_content}>
         <div className={styles.content__img_box}>
@@ -31,14 +34,13 @@ export default function Product() {
               src={img}
               alt={`product ${productArr[0].name} image`}
               loading="lazy"
-              
             />
           </picture>
           <div className={styles.img__box_list}>
             {mockArr.map((el, index) => {
               return (
                 <div tabIndex={0} key={index} className={styles.box__list_item}>
-                  <img                    
+                  <img
                     className={styles.box__image}
                     src={el.img}
                     alt={`product ${productArr[0].name} mini image`}

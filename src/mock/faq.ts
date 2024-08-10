@@ -18,5 +18,4 @@ export const faq = [
       'After placing your order, you will receive a confirmation email containing your order number and a tracking link. You can also log in to your account on our website and go to the "My Orders" section to track your delivery status.',
   },
   ,
-
 ];

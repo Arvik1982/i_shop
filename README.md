@@ -11,6 +11,3 @@ https://www.figma.com/design/BLNEySPi8iaaN9EkkS5oC4/7_tasks_JS%2BReact?node-id=0
 поднять React-проект c Typescript, используя шаблон на Vite react-ts (https://vitejs.dev/guide/)
 сверстать в проекте 3 страницы по макету из Figma
 настроить роутинг с помощью react-router-dom
-
-## Запуск:
-Проект запускается локально в dev-режиме

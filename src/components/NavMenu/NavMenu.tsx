@@ -41,7 +41,7 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
             to={`${el.path.toLowerCase()}`}
           >
             <div className={styles.container__nav_item}>
-              <div tabIndex={el.name !== "Cart" ? -1 : 0}>{el.name}</div>
+              <span tabIndex={el.name !== "Cart" ? -1 : 0}>{el.name}</span>
               {el.icon && <el.icon />}
               {el.name === "Cart" && goodsInCart && (
                 <div className={styles.nav__item_active}>{goodsInCart}</div>

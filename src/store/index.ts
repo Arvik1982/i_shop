@@ -1,8 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import navSlice from "./navigationSlice/navSlice";
+import cartSlice from "./cartSlice/cartSlice";
+import { getProductDataRtq } from "./productSlice/productSlice";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
-export default configureStore({
+const store = configureStore({
   reducer: {
-    navSlice: navSlice,
+    cartSlice: cartSlice,
+    [getProductDataRtq.reducerPath]:getProductDataRtq.reducer
   },
+  middleware:(getDefaultMiddleWare)=>getDefaultMiddleWare().concat(getProductDataRtq.middleware)
 });
+setupListeners(store.dispatch)
+
+export default store;

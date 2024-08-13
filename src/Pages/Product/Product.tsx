@@ -1,100 +1,179 @@
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styles from "./product.module.css";
-import { productArr } from "../../mock/products";
 import CustomButton from "../../components/UI/CustomButton/CustomButton";
 import Rating from "../../components/Raiting/Rating";
 import { Helmet } from "react-helmet-async";
+import { useGetProductsQuery } from "../../store/productSlice/productSlice";
+import { TProduct, TSingleProduct } from "../../types/commonTypes";
+import { useEffect, useState } from "react";
+import AddProductQuantity from "../../components/AddProductQuantity/AddProductQuantity";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../types/storeTypes";
+import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
+import { cartsHost } from "../../api/hosts";
+import Loader from "../../components/Loader/Loader";
+import ErrorPage from "../Error/ErrorPage";
+
+
 
 export default function Product() {
-  // const params = useParams();
-  const img = productArr[0].img;
-  const mockArr = [
-    { id: 1, img: img },
-    { id: 2, img: img },
-    { id: 3, img: img },
-    { id: 4, img: img },
-    { id: 5, img: img },
-    { id: 6, img: img },
-  ];
+  const params = useParams();
 
+  const { data, error, isLoading } = useGetProductsQuery<TSingleProduct>(
+    params.id
+  );
+console.log(data)
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { cartData } = useSelector((state: RootState) => state.cartSlice);
+
+  useEffect(() => {
+    dispatch(getCartDataThunk(cartsHost));
+  }, [dispatch]);
+
+  const [srcImg, setSrcImg] = useState("");
+
+  const handleImgChange = (data: string[], index: number) => {
+    const currentSrc = data[index];
+    setSrcImg(currentSrc);
+  };
+
+  const productDiscounted = (price: number, discount: number) => {
+    return Math.round((price - (price * discount) / 100) * 100) / 100;
+  };
+
+  const quantityReturn = (products: TProduct[], id: string | undefined) => {
+    const currentProductQuantity = products.find((product) => {
+      return product.id === Number(id);
+    });
+
+    if (currentProductQuantity) {
+      return currentProductQuantity.quantity;
+    }
+    if (!currentProductQuantity) {
+      return 0;
+    }
+  };
+
+  const quantity = cartData?.products
+    ? quantityReturn(cartData.products, params.id)
+    : 0;
+
+  console.log(cartData ? quantityReturn(cartData?.products, params.id) : "");
+  
   return (
-    <main className={styles.product__container}>
-      <Helmet>
-        <title> Essence Mascara Lash Princess | Goods4yo</title>
-        <meta
-          name="description"
-          content="Any products from famous brands with worldwide delivery"
-        />
-      </Helmet>
-      <section className={styles.product__container_content}>
-        <div className={styles.content__img_box}>
-          <picture className={styles.img__box_image}>
-            <img
-              className={styles.box__image}
-              src={img}
-              alt={`product ${productArr[0].name} image`}
-              loading="lazy"
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <>{error.status===404?<ErrorPage/>:<p>{error.data.message}</p>}
+        </>
+      ) : (
+        <main className={styles.product__container}>
+          <Helmet>
+            {data && <title> {data.title} | Goods4yo</title>}
+            <meta
+              name="description"
+              content="Any products from famous brands with worldwide delivery"
             />
-          </picture>
-          <div className={styles.img__box_list}>
-            {mockArr.map((el, index) => {
-              return (
-                <div tabIndex={0} key={index} className={styles.box__list_item}>
-                  <img
-                    className={styles.box__image}
-                    src={el.img}
-                    alt={`product ${productArr[0].name} mini image`}
-                  />
+          </Helmet>
+          <section className={styles.product__container_content}>
+            <div className={styles.content__img_box}>
+              <picture className={styles.img__box_image}>
+                <img
+                  className={styles.box__image}
+                  src={srcImg ? srcImg : data && data.images[0]}
+                  alt={`product ${data && data.title} image`}
+                  loading="lazy"
+                />
+              </picture>
+              <div className={styles.img__box_list}>
+                {data &&
+                  data.images.length > 1 &&
+                  data.images.map((el, index) => {
+                    return (
+                      <div
+                        tabIndex={0}
+                        key={index}
+                        className={styles.box__list_item}
+                      >
+                        <img
+                          onClick={() => {
+                            handleImgChange(data.images, index);
+                          }}
+                          className={styles.box__image}
+                          src={el}
+                          alt={`product ${data.title} mini image`}
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+            <article className={styles.content__text_box}>
+              <div className={styles.box__title_container}>
+                <h1 className={styles.title__container_text}>
+                  {data && data.title}
+                </h1>
+                <div className={styles.title__container_rating}>
+                  <div className={styles.rating__stars}>
+                    <Rating value={data && data.rating} />
+                  </div>
+<p className={`${styles.other__text } ${styles.other__text_gap}`}>
+                  {data && data.tags.map((text, index)=>{return <span key={index} >
+                    {text}
+                  </span>})}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-        <article className={styles.content__text_box}>
-          <div className={styles.box__title_container}>
-            <h1 className={styles.title__container_text}>
-              Essence Mascara Lash Princess
-            </h1>
-            <div className={styles.title__container_rating}>
-              <div className={styles.rating__stars}>
-                <Rating />
+              </div>
+              <div className={styles.text__box_amount}>
+                <span className={styles.box__amount_text}>
+                  {data && data.availabilityStatus}
+                </span>
+              </div>
+              <p className={styles.text__box_description}>
+                {data && data.description}
+              </p>
+
+              <div className={styles.text__box_other}>
+                <span className={styles.text}>
+                  {data && data.warrantyInformation}
+                </span>
+                <span className={styles.text}>
+                  {data && data.shippingInformation}
+                </span>
               </div>
 
-              <span className={styles.other__text}>
-                electronics, selfie accessories
-              </span>
-            </div>
-          </div>
-          <div className={styles.text__box_amount}>
-            <span className={styles.box__amount_text}>
-              In Stock - Only 5 left!
-            </span>
-          </div>
-          <p className={styles.text__box_description}>
-            The Essence Mascara Lash Princess is a popular mascara known for its
-            volumizing and lengthening effects. Achieve dramatic lashes with
-            this long-lasting and cruelty-free formula.
-          </p>
+              <div aria-label="buy" className={styles.text__box_buy}>
+                <div className={styles.box__buy_prices}>
+                  <div className={styles.buy__prices_price}>
+                    <span className={styles.price_current}>
+                      $
+                      {data &&
+                        productDiscounted(data.price, data.discountPercentage)}
+                    </span>
+                    <span className={styles.price_discount}>
+                      ${data && data.price}
+                    </span>
+                  </div>
+                  <span className={styles.box__buy_text}>
+                    Your discount:
+                    <p className={styles.text__bold}>
+                      {data && data.discountPercentage}%
+                    </p>
+                  </span>
+                </div>
 
-          <div className={styles.text__box_other}>
-            <span className={styles.text}>1 month warranty</span>
-            <span className={styles.text}>Ships in 1 month</span>
-          </div>
-
-          <div aria-label="buy" className={styles.text__box_buy}>
-            <div className={styles.box__buy_prices}>
-              <div className={styles.buy__prices_price}>
-                <span className={styles.price_current}>$7.17</span>
-                <span className={styles.price_discount}>$9.99</span>
+                {quantity && quantity > 0 ? (
+                  <AddProductQuantity productCount={quantity} />
+                ) : (
+                  <CustomButton tabIndex={0} buttonname={"Add to cart"} />
+                )}
               </div>
-              <span className={styles.box__buy_text}>
-                Your discount:<p className={styles.text__bold}>14%</p>
-              </span>
-            </div>
-            <CustomButton tabIndex={0} buttonname={"Add to cart"} />
-          </div>
-        </article>
-      </section>
-    </main>
+            </article>
+          </section>
+        </main>
+      )}
+    </>
   );
 }

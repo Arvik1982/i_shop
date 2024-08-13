@@ -116,7 +116,7 @@
 }
 
 .common__discount_value {
-  max-width: 51px;
+  /* max-width: 51px; */
   font-weight: 700;
 }
 

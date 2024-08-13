@@ -1,16 +1,28 @@
 import styles from "./rating.module.css";
 
-export default function Rating() {
-  const rating = 8;
+type TProps={
+  value:number
+}
 
+export default function Rating({value}:TProps) {
+ console.log(value)
+  const rating = (value:number)=>{
+    if(value<=10){
+      return Math.round(value)*20
+      
+    }
+    if(value>10){return 100}
+    
+  };
+  console.log(rating(value))
   return (
     <div className={styles.container__content_rating}>
       <div
-        aria-label={`rating of product ${rating} from ten`}
+        aria-label={`rating of product ${value&&rating(value)}% from ten`}
         className={styles.rating__body}
       >
         <div
-          style={{ width: `${70}%` }}
+          style={{ width: `${(Math.round(value))*20}%` }}
           className={styles.rating__body_active}
         ></div>
         <div className={styles.rating__body_items}>

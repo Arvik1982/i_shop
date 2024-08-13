@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignIcon from "../Icons/SignIcopn";
 import styles from "./addQuantity.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../types/storeTypes";
+import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
+import { cartsHost } from "../../api/hosts";
 
 interface ICountFunc {
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
@@ -8,10 +12,11 @@ interface ICountFunc {
   currentCount: number;
   func: React.Dispatch<React.SetStateAction<number>>;
 }
+type TProps ={productCount:number}
+export default function AddProductQuantity({productCount}:TProps) {
 
-export default function AddProductQuantity() {
 
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(productCount);
 
   const handleCount = (args: ICountFunc): void => {
     args.e.stopPropagation();

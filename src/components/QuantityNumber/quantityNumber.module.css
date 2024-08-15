@@ -1,0 +1,15 @@
+.change__box_count {
+  width: 57px;
+  margin: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+  text-align: center;
+}
+@media (max-width: 425px) {
+  .change__box_count {
+    margin: 2px;
+    font-size: 12px;
+    line-height: 16.6px;
+  }
+}

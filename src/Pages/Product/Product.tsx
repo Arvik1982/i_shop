@@ -13,8 +13,9 @@ import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
 import { cartsHost } from "../../api/hosts";
 import Loader from "../../components/Loader/Loader";
 import ErrorPage from "../Error/ErrorPage";
-
-
+import { imgOnLoad } from "../../helpers/onImgLoad";
+import AnimatedLoader from "../../components/Loader/AnimatedLoader/AnimatedLoader";
+import { productDiscounted } from "../../helpers/helpers";
 
 export default function Product() {
   const params = useParams();
@@ -22,14 +23,14 @@ export default function Product() {
   const { data, error, isLoading } = useGetProductsQuery<TSingleProduct>(
     params.id
   );
-console.log(data)
+  const [loadingStates, setLoadingStates] = useState(Array(1).fill(true));
   const dispatch = useDispatch<AppDispatch>();
-
-  const { cartData } = useSelector((state: RootState) => state.cartSlice);
 
   useEffect(() => {
     dispatch(getCartDataThunk(cartsHost));
   }, [dispatch]);
+
+  const { cartData } = useSelector((state: RootState) => state.cartSlice);
 
   const [srcImg, setSrcImg] = useState("");
 
@@ -38,9 +39,9 @@ console.log(data)
     setSrcImg(currentSrc);
   };
 
-  const productDiscounted = (price: number, discount: number) => {
-    return Math.round((price - (price * discount) / 100) * 100) / 100;
-  };
+  // const productDiscounted = (price: number, discount: number) => {
+  //   return Math.round((price - (price * discount) / 100) * 100) / 100;
+  // };
 
   const quantityReturn = (products: TProduct[], id: string | undefined) => {
     const currentProductQuantity = products.find((product) => {
@@ -59,14 +60,13 @@ console.log(data)
     ? quantityReturn(cartData.products, params.id)
     : 0;
 
-  console.log(cartData ? quantityReturn(cartData?.products, params.id) : "");
-  
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <>{error.status===404?<ErrorPage/>:<p>{error.data.message}</p>}
+        <>
+          {error.status === 404 ? <ErrorPage /> : <p>{error.data.message}</p>}
         </>
       ) : (
         <main className={styles.product__container}>
@@ -80,11 +80,18 @@ console.log(data)
           <section className={styles.product__container_content}>
             <div className={styles.content__img_box}>
               <picture className={styles.img__box_image}>
+                {loadingStates[0] && (
+                  <div className={styles.box__image__loader}>
+                    <AnimatedLoader />
+                  </div>
+                )}
                 <img
+                  style={{ opacity: loadingStates[0] ? 0 : 1 }}
                   className={styles.box__image}
                   src={srcImg ? srcImg : data && data.images[0]}
                   alt={`product ${data && data.title} image`}
                   loading="lazy"
+                  onLoad={() => imgOnLoad(0, setLoadingStates)}
                 />
               </picture>
               <div className={styles.img__box_list}>
@@ -119,10 +126,13 @@ console.log(data)
                   <div className={styles.rating__stars}>
                     <Rating value={data && data.rating} />
                   </div>
-<p className={`${styles.other__text } ${styles.other__text_gap}`}>
-                  {data && data.tags.map((text, index)=>{return <span key={index} >
-                    {text}
-                  </span>})}
+                  <p
+                    className={`${styles.other__text} ${styles.other__text_gap}`}
+                  >
+                    {data &&
+                      data.tags.map((text, index) => {
+                        return <span key={index}>{text}</span>;
+                      })}
                   </p>
                 </div>
               </div>

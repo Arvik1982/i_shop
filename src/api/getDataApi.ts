@@ -9,6 +9,7 @@ export default async function getDataApi(host: string) {
 
     return data;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }

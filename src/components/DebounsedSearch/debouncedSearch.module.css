@@ -1,0 +1,18 @@
+.search {
+  width: 100%;
+  max-width: 1180px;
+  height: 62px;
+  padding: 20px;
+  box-sizing: border-box;
+  gap: 10px;
+  border-radius: 4px;
+  border: 0;
+  background-color: rgba(246, 246, 246, 1);
+}
+.search::placeholder {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  color: rgba(178, 181, 187, 1);
+}

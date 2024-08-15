@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 type TProps = {
   openAnswerArr: number[];
   handleAnswerShow: Function;
-};
+} & React.DetailedHTMLProps<
+  React.LabelHTMLAttributes<HTMLLabelElement>,
+  HTMLLabelElement
+>;
 export default function AnswerElement({
   openAnswerArr,
   handleAnswerShow,

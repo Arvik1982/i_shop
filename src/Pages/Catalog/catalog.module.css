@@ -7,3 +7,12 @@
   gap: 25px;
   
 }
+.products__container_box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1180px;
+  gap: 46px;
+  margin-top: 15px;
+  height: 1848px;
+}

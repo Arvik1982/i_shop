@@ -34,9 +34,9 @@ export default function ProductInLine({ item }: TProps) {
   const isDeleted = (itemId: number) => {
     return toDelete.includes(itemId);
   };
-const discountedPriceItem=(price:number, discount:number)=>{
-  return Math.round((price - price*discount/100) * 100) / 100  
-}
+  const discountedPriceItem = (price: number, discount: number) => {
+    return Math.round((price - (price * discount) / 100) * 100) / 100;
+  };
   return (
     <article className={`${styles.content__left_item}`}>
       <div
@@ -44,22 +44,26 @@ const discountedPriceItem=(price:number, discount:number)=>{
         className={styles.left__item_description}
       >
         <figure className={styles.img__container}>
-          <img className={styles.img} src={item.thumbnail} alt="product image" />
+          <img
+            className={styles.img}
+            src={item.thumbnail}
+            alt="product image"
+          />
         </figure>
         <div className={styles.item__description_content}>
           <Link aria-label={`link to product page`} to={`/product/${item.id}`}>
-            <h2 className={styles.item__title}>
-             {item.title}
-            </h2>
+            <h2 className={styles.item__title}>{item.title}</h2>
           </Link>
           <span aria-label="price" className={styles.item__price}>
-            {discountedPriceItem(item.price,item.discountPercentage)}
+            {discountedPriceItem(item.price, item.discountPercentage)}
           </span>
         </div>
       </div>
 
       <div className={styles.item__actions}>
-        {!isDeleted(item.id) && <AddProductQuantity productCount={item.quantity} />}
+        {!isDeleted(item.id) && (
+          <AddProductQuantity productCount={item.quantity} />
+        )}
         {!isDeleted(item.id) && (
           <button
             onClick={(e) => {

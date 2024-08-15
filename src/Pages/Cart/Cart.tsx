@@ -1,24 +1,16 @@
 import { Helmet } from "react-helmet-async";
 import ProductInLine from "../../components/ProductInLine/ProductInLine";
 import styles from "./cart.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
+import { useSelector } from "react-redux";
 import { ICartData } from "../../types/cartTypes";
 import { TProduct } from "../../types/commonTypes";
-import { cartsHost } from "../../api/hosts";
-import { AppDispatch, RootState } from "../../types/storeTypes";
+
+import { RootState } from "../../types/storeTypes";
 
 export default function Cart() {
-  const dispatch = useDispatch<AppDispatch>();
-
   const { status, error, cartData } = useSelector(
     (state: RootState) => state.cartSlice
   );
-
-  useEffect(() => {
-    dispatch(getCartDataThunk(cartsHost));
-  }, [dispatch]);
 
   const totalPriceWithoutDiscount = (cartData: ICartData): number => {
     let result = 0;

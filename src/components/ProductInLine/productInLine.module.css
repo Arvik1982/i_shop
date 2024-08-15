@@ -7,7 +7,7 @@
   box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
-  gap: 50px;
+  /* gap: 50px; */
 }
 .content__left_item:hover {
   border-radius: 4px;
@@ -115,6 +115,7 @@
   .content__left_item {
     max-width: 768px;
     align-items: flex-start;
+    
   }
   .item__actions {
     gap: 20px;

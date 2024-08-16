@@ -48,6 +48,7 @@ export default function Catalog({ link, setLink }: TPropsLink) {
           <Products
             products={products}
             setSearchInput={setSearchInput}
+            setSkip={setSkip}
             setLink={setLink}
             link={link}
             paginateData={paginateData}

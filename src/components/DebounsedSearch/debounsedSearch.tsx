@@ -4,9 +4,10 @@ import debounce from "lodash.debounce";
 
 type TProps = {
   setSearchInput: React.Dispatch<React.SetStateAction<string>>;
+  setSkip: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export default function DebouncedSearch({ setSearchInput }: TProps) {
+export default function DebouncedSearch({ setSearchInput, setSkip }: TProps) {
   const [searchedText, setSearchedText] = useState("");
 
   const handleInputChange = (
@@ -16,6 +17,7 @@ export default function DebouncedSearch({ setSearchInput }: TProps) {
   };
   const debouncedSearch = debounce((text): void => {
     setSearchInput(text);
+    setSkip(0);
   }, 300);
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import DebouncedSearch from "../DebounsedSearch/debounsedSearch";
 type TPropsProducts<T> = TPropsLink & {
   products: T;
   setSearchInput: React.Dispatch<React.SetStateAction<string>>;
+  setSkip:React.Dispatch<React.SetStateAction<number>>;
   paginateData: {
     totalItems: number;
     handleLoadMore: MouseEventHandler<HTMLButtonElement>;
@@ -17,6 +18,7 @@ type TPropsProducts<T> = TPropsLink & {
 export default function Products({
   products,
   setSearchInput,
+  setSkip,
   link,
   setLink,
   paginateData,
@@ -44,7 +46,7 @@ export default function Products({
       >
         Catalog
       </h1>
-      <DebouncedSearch setSearchInput={setSearchInput} />
+      <DebouncedSearch setSearchInput={setSearchInput} setSkip={setSkip} />
       {products.products.length > 0 ? (
         <div className={styles.catalog__container_content}>
           <ProductListItem productArr={products.products} />

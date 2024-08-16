@@ -1,7 +1,14 @@
 .header__container_nav {
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  background-color: #fff;
   display: flex;
-  height: 20px;
-  gap: 40px;
+  flex-direction: column;
+  width: 90%;
+  height: 150px;
+  gap: 20px;
+  border-radius: 10px;
 }
 .container__nav_link {
   font-size: 14px;
@@ -25,7 +32,7 @@
 }
 
 .nav__item_active {
-  position: absolute;
+  /* position: absolute; */
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -46,12 +53,6 @@
     gap: 5px;
   }
 }
-
-/* @media (max-width: 425px) {
-  .header__container_nav {
-    display: none;
-  }
-} */
 
 @media (max-width: 768px) {
   .header__container_nav {

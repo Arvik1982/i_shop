@@ -23,6 +23,7 @@ export default function Header({ setLink }: TPropsLink) {
         >
           <a className={styles.container__logo_text}>{appTitle.appName}</a>
         </div>
+
         <NavMenu
           setLink={setLink}
           menuArr={["Catalog", "FAQ", "Cart", "Johnson Smith"]}

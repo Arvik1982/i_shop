@@ -36,6 +36,18 @@ export default function Catalog({ link, setLink }: TPropsLink) {
           name="description"
           content="Any products from famous brands with worldwide delivery"
         />
+
+        {products &&
+          products.products.map((product, index) => {
+            return (
+              <link
+                key={index}
+                rel="prefetch"
+                href={product.images[0]}
+                as="image"
+              />
+            );
+          })}
       </Helmet>
 
       <main className={styles.catalog__container}>

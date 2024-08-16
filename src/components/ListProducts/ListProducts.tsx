@@ -8,7 +8,7 @@ import DebouncedSearch from "../DebounsedSearch/debounsedSearch";
 type TPropsProducts<T> = TPropsLink & {
   products: T;
   setSearchInput: React.Dispatch<React.SetStateAction<string>>;
-  setSkip:React.Dispatch<React.SetStateAction<number>>;
+  setSkip: React.Dispatch<React.SetStateAction<number>>;
   paginateData: {
     totalItems: number;
     handleLoadMore: MouseEventHandler<HTMLButtonElement>;
@@ -34,6 +34,12 @@ export default function Products({
     setLink("");
   }, [link]);
 
+  const handleShowMoreClick = (paginateData: {
+    handleLoadMore: Function;
+  }): void => {
+    paginateData.handleLoadMore();
+    setLink("Catalog");
+  };
   return (
     <section
       aria-label="products image list"
@@ -58,7 +64,9 @@ export default function Products({
         {products.products.length > 0 &&
           products.products.length < paginateData.totalItems && (
             <button
-              onClick={paginateData.handleLoadMore}
+              onClick={() => {
+                handleShowMoreClick(paginateData);
+              }}
               tabIndex={0}
               aria-label="Show more"
               className={styles.box__button}

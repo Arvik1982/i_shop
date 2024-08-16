@@ -4,14 +4,12 @@ import styles from "./cart.module.css";
 import { useSelector } from "react-redux";
 import { ICartData } from "../../types/cartTypes";
 import { TProduct } from "../../types/commonTypes";
-
 import { RootState } from "../../types/storeTypes";
 
 export default function Cart() {
   const { status, error, cartData } = useSelector(
     (state: RootState) => state.cartSlice
   );
-
   const totalPriceWithoutDiscount = (cartData: ICartData): number => {
     let result = 0;
     cartData.products.forEach((product: TProduct) => {
@@ -38,6 +36,18 @@ export default function Cart() {
           name="description"
           content="Any products from famous brands with worldwide delivery"
         />
+
+        {cartData &&
+          cartData.products.map((product, index) => {
+            return (
+              <link
+                key={index}
+                rel="preload"
+                href={product.thumbnail}
+                as="image"
+              />
+            );
+          })}
       </Helmet>
       <div className={styles.cart__container_title}>
         <h1 className={styles.container__title_text}>My cart</h1>

@@ -20,7 +20,7 @@ export const Default: Story = {
   render: (args) => (
     <Provider store={store}>
       <BrowserRouter>
-      <NavMenu {...args} />
+        <NavMenu {...args} />
       </BrowserRouter>
     </Provider>
   ),

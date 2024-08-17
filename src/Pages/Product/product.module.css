@@ -40,7 +40,7 @@
   height: 100%;
   object-fit: cover;
 }
-.box__image__loader{
+.box__image__loader {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,9 +120,9 @@
   text-align: left;
   color: rgba(100, 100, 100, 1);
 }
-.other__text_gap{
-  display:flex;
-  gap:3px
+.other__text_gap {
+  display: flex;
+  gap: 3px;
 }
 .text {
   min-width: 200px;

@@ -78,6 +78,13 @@ export default function Product() {
             />
 
             <link rel="preload" href={data.images[0]} as="image" />
+
+            {data &&
+              data.images.map((image, index) => {
+                return (
+                  <link key={index} rel="preload" href={image} as="image" />
+                );
+              })}
           </Helmet>
           <section className={styles.product__container_content}>
             <div className={styles.content__img_box}>
@@ -101,7 +108,7 @@ export default function Product() {
                   data.images.length > 1 &&
                   data.images.map((el, index) => {
                     return (
-                      <div
+                      <figure
                         tabIndex={0}
                         key={index}
                         className={styles.box__list_item}
@@ -114,7 +121,7 @@ export default function Product() {
                           src={el}
                           alt={`product ${data.title} mini image`}
                         />
-                      </div>
+                      </figure>
                     );
                   })}
               </div>

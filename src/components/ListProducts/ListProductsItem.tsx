@@ -13,7 +13,6 @@ import AnimatedLoader from "../Loader/AnimatedLoader/AnimatedLoader";
 import { imgOnError, imgOnLoad } from "../../helpers/onImgLoad";
 import { productDiscounted } from "../../helpers/helpers";
 
-
 type TProps<T> = {
   productArr: T[];
 };

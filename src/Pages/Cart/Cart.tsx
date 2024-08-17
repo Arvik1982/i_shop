@@ -48,6 +48,18 @@ export default function Cart() {
               />
             );
           })}
+
+        {cartData &&
+          cartData.products.map((product, index) => {
+            return (
+              <link
+                key={index}
+                rel="prefetch"
+                href={`https://dummyjson.com/products/${product.id}`}
+                as="fetch"
+              />
+            );
+          })}
       </Helmet>
       <div className={styles.cart__container_title}>
         <h1 className={styles.container__title_text}>My cart</h1>

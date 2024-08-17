@@ -76,6 +76,8 @@ export default function Product() {
               name="description"
               content="Any products from famous brands with worldwide delivery"
             />
+
+            <link rel="preload" href={data.images[0]} as="image" />
           </Helmet>
           <section className={styles.product__container_content}>
             <div className={styles.content__img_box}>

@@ -42,8 +42,8 @@ export default function Catalog({ link, setLink }: TPropsLink) {
             return (
               <link
                 key={index}
-                rel="prefetch"
-                href={product.images[0]}
+                rel="preload"
+                href={product.thumbnail}
                 as="image"
               />
             );

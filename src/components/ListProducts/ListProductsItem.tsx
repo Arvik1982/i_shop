@@ -12,7 +12,7 @@ import { ICartData } from "../../types/cartTypes";
 import AnimatedLoader from "../Loader/AnimatedLoader/AnimatedLoader";
 import { imgOnError, imgOnLoad } from "../../helpers/onImgLoad";
 import { productDiscounted } from "../../helpers/helpers";
-import { Helmet } from "react-helmet-async";
+
 
 type TProps<T> = {
   productArr: T[];
@@ -50,20 +50,6 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
 
   return (
     <>
-      <Helmet>
-        {incomingProducts &&
-          incomingProducts.map((product, index) => {
-            return (
-              <link
-                key={index}
-                rel="preload"
-                href={product.thumbnail}
-                as="image"
-              />
-            );
-          })}
-      </Helmet>
-
       {incomingProducts &&
         incomingProducts.map((el, index) => {
           return (

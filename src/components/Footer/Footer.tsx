@@ -1,7 +1,5 @@
 import styles from "./footer.module.css";
-
 import { appTitle } from "../../mock/names";
-
 import NavMenu from "../NavMenu/NavMenu";
 import { TPropsLink } from "../../types/propsTypes";
 import { useNavigate } from "react-router-dom";

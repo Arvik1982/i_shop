@@ -132,6 +132,7 @@
   }
   .left__item_description {
     flex-wrap: wrap;
+    
   }
 }
 @media (max-width: 424px) {
@@ -145,7 +146,11 @@
     font-size: 10px;
   }
   .item__actions {
-    gap: 70px;
+    gap: 0px;
+  }
+  .left__item_description {
+   
+    align-content: center
   }
 }
 

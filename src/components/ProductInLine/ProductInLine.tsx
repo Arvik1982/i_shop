@@ -55,7 +55,7 @@ export default function ProductInLine({ item }: TProps) {
             <h2 className={styles.item__title}>{item.title}</h2>
           </Link>
           <span aria-label="price" className={styles.item__price}>
-            {discountedPriceItem(item.price, item.discountPercentage)}
+            {discountedPriceItem(item.price, item.discountPercentage)}$
           </span>
         </div>
       </div>

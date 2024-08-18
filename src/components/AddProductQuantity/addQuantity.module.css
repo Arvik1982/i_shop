@@ -46,7 +46,7 @@
 @media (max-width: 425px) {
   .right__change_box {
     width: fit-content;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .change__box_count {

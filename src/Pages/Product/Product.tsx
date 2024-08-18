@@ -39,10 +39,6 @@ export default function Product() {
     setSrcImg(currentSrc);
   };
 
-  // const productDiscounted = (price: number, discount: number) => {
-  //   return Math.round((price - (price * discount) / 100) * 100) / 100;
-  // };
-
   const quantityReturn = (products: TProduct[], id: string | undefined) => {
     const currentProductQuantity = products.find((product) => {
       return product.id === Number(id);
@@ -76,15 +72,7 @@ export default function Product() {
               name="description"
               content="Any products from famous brands with worldwide delivery"
             />
-
             <link rel="preload" href={data.images[0]} as="image" />
-
-            {data &&
-              data.images.map((image, index) => {
-                return (
-                  <link key={index} rel="preload" href={image} as="image" />
-                );
-              })}
           </Helmet>
           <section className={styles.product__container_content}>
             <div className={styles.content__img_box}>
@@ -95,8 +83,8 @@ export default function Product() {
                   </div>
                 )}
                 <img
-                  style={{ opacity: loadingStates[0] ? 0 : 1 }}
-                  className={styles.box__image}
+                  decoding="async"
+                  className={`${!loadingStates[0] ? styles.box__image : styles.hidden__image} `}
                   src={srcImg ? srcImg : data && data.images[0]}
                   alt={`product ${data && data.title} image`}
                   loading="lazy"
@@ -114,6 +102,8 @@ export default function Product() {
                         className={styles.box__list_item}
                       >
                         <img
+                          loading="lazy"
+                          decoding="async"
                           onClick={() => {
                             handleImgChange(data.images, index);
                           }}
@@ -131,6 +121,9 @@ export default function Product() {
                 <h1 className={styles.title__container_text}>
                   {data && data.title}
                 </h1>
+                <div className={styles.container__text_full}>
+                  {data && data.title}
+                </div>
                 <div className={styles.title__container_rating}>
                   <div className={styles.rating__stars}>
                     <Rating value={data && data.rating} />

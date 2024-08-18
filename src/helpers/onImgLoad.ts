@@ -1,4 +1,7 @@
-export const imgOnLoad = (index: number, setLoadingStates:React.Dispatch<React.SetStateAction<boolean[]>>) => {
+export const imgOnLoad = (
+  index: number,
+  setLoadingStates: React.Dispatch<React.SetStateAction<boolean[]>>
+) => {
   setLoadingStates((prev) => {
     const newStates = [...prev];
     newStates[index] = false;
@@ -6,7 +9,10 @@ export const imgOnLoad = (index: number, setLoadingStates:React.Dispatch<React.S
   });
 };
 
-export const imgOnError = (index: number,setLoadingStates:React.Dispatch<React.SetStateAction<boolean[]>>) => {
+export const imgOnError = (
+  index: number,
+  setLoadingStates: React.Dispatch<React.SetStateAction<boolean[]>>
+) => {
   setLoadingStates((prev) => {
     const newStates = [...prev];
     newStates[index] = false;

@@ -11,8 +11,7 @@ type TProps = {
   setCount: React.Dispatch<React.SetStateAction<number>>;
   action: string;
 };
-export default function QuantityButton({ count, setCount, action }:TProps) {
-    
+export default function QuantityButton({ count, setCount, action }: TProps) {
   const handleCount = (args: ICountFunc): void => {
     args.e.stopPropagation();
 
@@ -43,7 +42,8 @@ export default function QuantityButton({ count, setCount, action }:TProps) {
           : styles.bottom__right_button_large
       }`}
     >
-      <SignIcon sign={"+"} />
+      {action === "+" && <SignIcon sign={"+"} />}
+      {action === "-" && <SignIcon sign={"-"} />}
     </button>
   );
 }

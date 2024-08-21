@@ -1,19 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartSlice from "./cartSlice/cartSlice";
-import { getProductDataRtq } from "./productSlice/productSlice";
+import { getProductDataRtq } from "./productApi/productApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { getCatalogDataRtq } from "./catalogSlice/catalogSlice";
+import { getCatalogDataRtq } from "./catalogApi/catalogApi";
+import { getAuthRtq } from "./authApi/authApi";
+import userSlice from "./userSlice/userSlice";
 
 const store = configureStore({
   reducer: {
     cartSlice: cartSlice,
+    userSlice:userSlice,
     [getProductDataRtq.reducerPath]: getProductDataRtq.reducer,
     [getCatalogDataRtq.reducerPath]: getCatalogDataRtq.reducer,
+    [getAuthRtq.reducerPath]: getAuthRtq.reducer,
   },
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare()
       .concat(getProductDataRtq.middleware)
-      .concat(getCatalogDataRtq.middleware),
+      .concat(getCatalogDataRtq.middleware)
+      .concat(getAuthRtq.middleware),
 });
 setupListeners(store.dispatch);
 

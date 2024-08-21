@@ -2,13 +2,11 @@ import { useParams } from "react-router-dom";
 import styles from "./product.module.css";
 import Rating from "../../components/Raiting/Rating";
 import { Helmet } from "react-helmet-async";
-import { useGetProductsQuery } from "../../store/productSlice/productSlice";
+import { useGetProductsQuery } from "../../store/productApi/productApi";
 import { TProduct, TSingleProduct } from "../../types/commonTypes";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../types/storeTypes";
-import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
-import { cartsHost } from "../../api/hosts";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../types/storeTypes";
 import Loader from "../../components/Loader/Loader";
 import ErrorPage from "../Error/ErrorPage";
 import ProductPicture from "../../components/ProductPicture/ProductPicture";
@@ -21,11 +19,10 @@ export default function Product() {
   const { data, error, isLoading } = useGetProductsQuery<TSingleProduct>(
     params.id
   );
-  const dispatch = useDispatch<AppDispatch>();
+
+  error&&console.log(error)
+
   const [srcImg, setSrcImg] = useState("");
-  useEffect(() => {
-    dispatch(getCartDataThunk(cartsHost));
-  }, [dispatch]);
 
   const { cartData } = useSelector((state: RootState) => state.cartSlice);
 

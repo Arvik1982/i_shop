@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import { productDiscounted } from "../../helpers/helpers";
 import { TData } from "../../types/commonTypes";
+import { RootState } from "../../types/storeTypes";
 import AddProductQuantity from "../AddProductQuantity/AddProductQuantity";
+import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import styles from "./buyProduct.module.css";
 
@@ -9,7 +12,13 @@ type TProps = {
   data: TData;
 };
 
-export default function BuyProduct({ data, quantity }: TProps) {
+export default function BuyProduct({ data }: TProps) {
+
+  const { error, cartData } = useSelector(
+    (state: RootState) => state.cartSlice
+  );
+
+
   return (
     <article aria-label="buy" className={styles.text__box_buy}>
       <section className={styles.box__buy_prices}>
@@ -26,12 +35,12 @@ export default function BuyProduct({ data, quantity }: TProps) {
           </span>
         </p>
       </section>
-
-      {quantity && quantity > 0 ? (
+      <AddToCartButton myType='text' product={data} />
+      {/* {quantity && quantity > 0 ? (
         <AddProductQuantity productCount={quantity} />
       ) : (
         <CustomButton tabIndex={0} buttonname={"Add to cart"} />
-      )}
+      )} */}
     </article>
   );
 }

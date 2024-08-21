@@ -1,45 +1,36 @@
 import SignIcon from "../../Icons/SignIcopn";
 import styles from "./quantityButton.module.css";
-interface ICountFunc {
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
-  action: string;
-  currentCount: number;
-  func: React.Dispatch<React.SetStateAction<number>>;
-}
-type TProps = {
-  count: number;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-  action: string;
-};
-export default function QuantityButton({ count, setCount, action }: TProps) {
-  const handleCount = (args: ICountFunc): void => {
-    args.e.stopPropagation();
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../types/storeTypes";
+import { handleChangeQuantityFunction } from "../../../helpers/changeQuantityFunction";
 
-    if (args.action === "+") {
-      args.currentCount !== null ? args.func((args.currentCount += 1)) : "";
-    }
-    if (args.action === "-") {
-      args.currentCount !== null
-        ? args.currentCount > 0 && args.func((args.currentCount -= 1))
-        : "";
-    }
-  };
+type TProps = {
+  idProduct: number;
+  action: string;
+} & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
+export default function QuantityButton({ idProduct, action }: TProps) {
+  const { cartData } = useSelector((state: RootState) => state.cartSlice);
+  const dispatch = useDispatch<AppDispatch>();
+  const token = useSelector((state: RootState) => state.userSlice.token);
 
   return (
     <button
       aria-label="add to cart"
       onClick={(e) => {
-        handleCount({
-          e: e,
-          action: `${action}`,
-          currentCount: count,
-          func: setCount,
-        });
+        e.stopPropagation();
+        cartData&&token&&handleChangeQuantityFunction(
+          idProduct,
+          action,
+          cartData,
+          dispatch,
+          token
+        );
       }}
       className={`${
-        count < 14
-          ? styles.bottom__right_button
-          : styles.bottom__right_button_large
+        1 < 14 ? styles.bottom__right_button : styles.bottom__right_button_large
       }`}
     >
       {action === "+" && <SignIcon sign={"+"} />}

@@ -4,7 +4,7 @@ import Products from "../../components/ListProducts/ListProducts";
 import AnswersFaq from "../../components/AnswersFaq/AnswersFaq";
 import { TPropsLink } from "../../types/propsTypes";
 import { Helmet } from "react-helmet-async";
-import { useGetCatalogQuery } from "../../store/catalogSlice/catalogSlice";
+import { useGetCatalogQuery } from "../../store/catalogApi/catalogApi";
 import { TCatalog } from "../../types/commonTypes";
 import ErrorPage from "../Error/ErrorPage";
 import { useState } from "react";

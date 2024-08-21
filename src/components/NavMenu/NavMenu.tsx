@@ -8,13 +8,18 @@ import { AppDispatch, RootState } from "../../types/storeTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
 import { cartsHost } from "../../api/hosts";
+import { useGetUserQuery } from "../../store/authApi/authApi";
+import { setToken } from "../../store/userSlice/userSlice";
 
 type TProps = {
   menuArr: string[];
 } & TPropsLink;
 
 export default function NavMenu({ menuArr, setLink }: TProps) {
+
   const dispatch = useDispatch<AppDispatch>();
+  const token = useSelector((state:RootState) => state.userSlice.token)
+  const { data: user, error, isLoading } = useGetUserQuery(undefined, { skip: !token });  
   const { cartData } = useSelector((state: RootState) => state.cartSlice);
   const [goodsInCart, setGoodsInCart] = useState<number | null>(null);
 
@@ -26,12 +31,21 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
     setLink(el);
   };
 
-  useEffect(() => {
-    dispatch(getCartDataThunk(cartsHost));
-  }, [dispatch]);
+  const userId = user?.id;
 
   useEffect(() => {
-    setGoodsInCart(cartData ? cartData.totalQuantity : null);
+    if (!isLoading && userId) {
+      const cartApiUrl = `${cartsHost}/user/${userId}`;
+      dispatch(getCartDataThunk(`${cartApiUrl}`));
+    }
+
+    if (error && "status" in error) {
+      error.status === 401 && dispatch(setToken(""));
+    }
+  }, [dispatch, userId, isLoading]);
+
+  useEffect(() => {
+   token&& setGoodsInCart(cartData ? cartData.totalQuantity : null);
   }, [cartData]);
 
   return (

@@ -1,46 +1,39 @@
-import { useState } from "react";
 import AddProductQuantity from "../AddProductQuantity/AddProductQuantity";
 import styles from "./productInLine.module.css";
 import { Link } from "react-router-dom";
 import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
 import { TProduct } from "../../types/commonTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../types/storeTypes";
+
+import { addRemoveItemCart } from "../../helpers/addRemoveItemCart";
 
 type TProps = {
   item: TProduct;
 };
 export default function ProductInLine({ item }: TProps) {
-  const [toDelete, setToDelete] = useState<number[]>([4]);
+  console.log(item);
 
-  const handleDeleteItem = (
-    itemId: number,
-    e: React.MouseEvent<
-      HTMLDivElement | HTMLButtonElement | HTMLAnchorElement,
-      MouseEvent
-    >
-  ): void => {
-    e.stopPropagation();
+  const dispatch = useDispatch<AppDispatch>();
+  const token = useSelector((state: RootState) => state.userSlice.token);
 
-    if (!toDelete.includes(itemId)) {
-      setToDelete([...toDelete, itemId]);
-    }
-    if (toDelete.includes(itemId)) {
-      setToDelete(
-        toDelete.filter((el) => {
-          return el !== itemId;
-        })
-      );
-    }
+  const { error, cartData } = useSelector(
+    (state: RootState) => state.cartSlice
+  );
+
+  error && console.log(error);
+
+  const isDeleted = (item: { quantity: number }) => {
+    return item.quantity === 0;
   };
-  const isDeleted = (itemId: number) => {
-    return toDelete.includes(itemId);
-  };
+
   const discountedPriceItem = (price: number, discount: number) => {
     return Math.round((price - (price * discount) / 100) * 100) / 100;
   };
   return (
     <article className={`${styles.content__left_item}`}>
       <div
-        style={isDeleted(item.id) ? { opacity: "0.6" } : {}}
+        style={isDeleted(item) ? { opacity: "0.6" } : {}}
         className={styles.left__item_description}
       >
         <figure className={styles.img__container}>
@@ -61,26 +54,20 @@ export default function ProductInLine({ item }: TProps) {
       </div>
 
       <div className={styles.item__actions}>
-        {!isDeleted(item.id) && (
-          <AddProductQuantity productCount={item.quantity} />
-        )}
-        {!isDeleted(item.id) && (
+        {!(item.quantity === 0) && <AddProductQuantity product={item} />}
+        {!(item.quantity === 0) && (
           <button
-            onClick={(e) => {
-              handleDeleteItem(item.id, e);
-            }}
+            onClick={() =>
+              cartData &&
+              token &&
+              addRemoveItemCart(item.id, "del", cartData, dispatch, token)
+            }
             className={styles.item__actions_del}
           >
             Delete
           </button>
         )}
-        {isDeleted(item.id) && (
-          <AddToCartButton
-            onClick={(e) => {
-              handleDeleteItem(item.id, e);
-            }}
-          />
-        )}
+        {item.quantity === 0 && <AddToCartButton myType='icon' product={item} />}
       </div>
     </article>
   );

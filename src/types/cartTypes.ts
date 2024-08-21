@@ -12,10 +12,13 @@ export interface ICartData {
 
 export interface CartResponse {
   carts: ICartData[];
+  error:{
+    status:number
+  }
 }
 
 export interface CartState {
-  status: "start" | "loading" | "resolved" | "rejected";
-  error: string | null | undefined;
+  status: "start" | "loading" | "resolved" | "rejected"|"loadUpdate" | "resolveUpdate" | "rejectUpdate"
+  error: string | null | undefined
   cartData: ICartData | null;
 }

@@ -45,13 +45,13 @@ export default function Products({
       aria-label="products image list"
       className={styles.products__container_box}
     >
-      <h1
+      <h2
         ref={focusOnCatalog}
         tabIndex={0}
         className={styles.container__box_title}
       >
         Catalog
-      </h1>
+      </h2>
       <DebouncedSearch setSearchInput={setSearchInput} setSkip={setSkip} />
       {products.products.length > 0 ? (
         <div className={styles.catalog__container_content}>

@@ -4,10 +4,12 @@ import NavMenu from "../NavMenu/NavMenu";
 import { useNavigate } from "react-router-dom";
 import { TPropsLink } from "../../types/propsTypes";
 import { onKeyEnterDown } from "../../helpers/onEnterClick";
+import { useSelector } from "react-redux";
+import { RootState } from "../../types/storeTypes";
 
 export default function Header({ setLink }: TPropsLink) {
   const navigate = useNavigate();
-
+  const token = useSelector((state:RootState) => state.userSlice.token)
   return (
     <header className={styles.header__container}>
       <div className={styles.header__container_box}>
@@ -24,10 +26,10 @@ export default function Header({ setLink }: TPropsLink) {
           <a className={styles.container__logo_text}>{appTitle.appName}</a>
         </div>
 
-        <NavMenu
+        {token&&<NavMenu
           setLink={setLink}
           menuArr={["Catalog", "FAQ", "Cart", "Johnson Smith"]}
-        />
+        />}
       </div>
       <div className={styles.header__container_underline}></div>
     </header>

@@ -66,3 +66,4 @@ export type TCatalog = {
     status: number|string|undefined;
   };
 };
+

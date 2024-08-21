@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "./listProducts.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import AddProductQuantity from "../AddProductQuantity/AddProductQuantity";
+
 import { onKeyEnterDown } from "../../helpers/onEnterClick";
-import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
+
 import LinkByName from "../UI/LinkByName/LinkByName";
 import { TData } from "../../types/commonTypes";
 import { useSelector } from "react-redux";
@@ -12,6 +12,9 @@ import { ICartData } from "../../types/cartTypes";
 import AnimatedLoader from "../Loader/AnimatedLoader/AnimatedLoader";
 import { imgOnError, imgOnLoad } from "../../helpers/onImgLoad";
 import { productDiscounted } from "../../helpers/helpers";
+import AddNewProduct from "../UI/AddNewProduct/AddNewProduct";
+
+import QuantityButton from "../UI/QuantityButton/QuantityButton";
 
 type TProps<T> = {
   productArr: T[];
@@ -28,23 +31,19 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
   );
 
   useEffect(() => {
-    setLoadingStates(Array(productArr.length).fill(true));
-  }, [productArr]);
-
-  useEffect(() => {
     setIncomingProducts(productArr);
   }, [productArr]);
 
-  const handleProductCartAdd = (id: number) => {
-    setCartProduct(id);
-  };
-  const isInCart = (cart: ICartData, id: number) => {
-    return cart.products.find((el) => el.id === id) || cartProduct === id;
-  };
+  useEffect(() => {
+    setLoadingStates(Array(incomingProducts.length).fill(true));
+  }, [incomingProducts]);
 
-  const inCartQuantity = (cart: ICartData, id: number): number => {
-    const product = cart.products.find((product) => product.id === id);
-    return product ? product.quantity : 0;
+  const isInCart = (cart: ICartData, id: number) => {
+    const quantity = cart.products.find((el) => {
+      return el.id === id;
+    })?.quantity;
+
+    return quantity && quantity !== 0 ? true : false;
   };
 
   return (
@@ -117,17 +116,21 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
                   className={styles.item__bottom_right}
                 >
                   {cartData && !isInCart(cartData, el.id) && (
-                    <AddToCartButton
-                      onClick={() => {
-                        handleProductCartAdd(el.id);
-                      }}
-                    />
+                    <AddNewProduct  product={el} />
                   )}
-
                   {cartData && isInCart(cartData, el.id) && (
-                    <AddProductQuantity
-                      productCount={inCartQuantity(cartData, el.id)}
-                    />
+                    <div className={styles.change__box}>
+                      <QuantityButton idProduct={el.id} action="-" />
+                      {
+                        <p>
+                          {
+                            cartData?.products.find((elm) => elm.id === el.id)
+                              ?.quantity
+                          }
+                        </p>
+                      }
+                      <QuantityButton idProduct={el.id} action="+" />
+                    </div>
                   )}
                 </div>
               </div>

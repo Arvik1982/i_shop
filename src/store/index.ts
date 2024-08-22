@@ -5,6 +5,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { getCatalogDataRtq } from "./catalogApi/catalogApi";
 import { getAuthRtq } from "./authApi/authApi";
 import userSlice from "./userSlice/userSlice";
+import { addNewProductToCartRtq } from "./productApi/addNewProductApi";
 
 const store = configureStore({
   reducer: {
@@ -13,12 +14,14 @@ const store = configureStore({
     [getProductDataRtq.reducerPath]: getProductDataRtq.reducer,
     [getCatalogDataRtq.reducerPath]: getCatalogDataRtq.reducer,
     [getAuthRtq.reducerPath]: getAuthRtq.reducer,
+    [addNewProductToCartRtq.reducerPath]: addNewProductToCartRtq.reducer,
   },
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare()
       .concat(getProductDataRtq.middleware)
       .concat(getCatalogDataRtq.middleware)
-      .concat(getAuthRtq.middleware),
+      .concat(getAuthRtq.middleware)
+      .concat(addNewProductToCartRtq.middleware),
 });
 setupListeners(store.dispatch);
 

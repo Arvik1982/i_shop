@@ -23,6 +23,6 @@ export default async function updateDataApi(host: string, token:string|null, upd
       return data;
     } catch (error) {
       console.log(error)
-      throw error;
+      throw new Error(`ERROR_${error}`);
     }
   }

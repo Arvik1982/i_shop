@@ -3,6 +3,7 @@ import styles from "./quantityButton.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../types/storeTypes";
 import { handleChangeQuantityFunction } from "../../../helpers/changeQuantityFunction";
+import { useState } from "react";
 
 type TProps = {
   idProduct: number;
@@ -15,9 +16,12 @@ export default function QuantityButton({ idProduct, action }: TProps) {
   const { cartData } = useSelector((state: RootState) => state.cartSlice);
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.userSlice.token);
+  const[disabled, setDisabled]=useState(false)
+
 
   return (
     <button
+    disabled={disabled}
       aria-label="add to cart"
       onClick={(e) => {
         e.stopPropagation();
@@ -26,7 +30,8 @@ export default function QuantityButton({ idProduct, action }: TProps) {
           action,
           cartData,
           dispatch,
-          token
+          token,
+          setDisabled
         );
       }}
       className={`${

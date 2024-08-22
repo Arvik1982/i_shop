@@ -5,9 +5,10 @@ export interface IUser {
   id: number;
   image: string;
   lastName: string;
-  refreshToken: string;
-  token: string;
+  refreshToken: string|undefined;
+  token: string|undefined;
   username: string;
+  commonError:string
 }
 
 export type TUserResponse = {

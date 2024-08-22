@@ -8,51 +8,50 @@ const initialState: CartState = {
   status: "start",
   error: null,
   cartData: null,
-  
 };
-const token = localStorage.getItem('token')
+const token = localStorage.getItem("token");
 export const getCartDataThunk = createAsyncThunk<
   CartResponse,
   string,
   { rejectValue: string | null }
 >("cartSlice/getCartDataThunk", async (host, { rejectWithValue }) => {
   try {
-    const data = await getDataApi(host,token);
+    const data = await getDataApi(host, token);
     return data;
   } catch (error) {
-
     return rejectWithValue(
       error instanceof Error ? error.message : "Unknown error"
     );
   }
 });
 
-
-
-// Новый thunk для обновления данных корзины
 export const updateCartDataThunk = createAsyncThunk<
   CartResponse,
-  { host: string; token: string | null; updateData: object }, // Принимаем URL, токен и данные для обновления
+  { host: string; token: string | null; updateData: object },
   { rejectValue: string | null }
->("cartSlice/updateCartDataThunk", async ({ host, token, updateData }, { rejectWithValue }) => {
-  try {
-    console.log('thunk')
-    const data = await updateDataApi(host, token, updateData); // Используем getDataApi для отправки PATCH запроса
-    return data;
-  } catch (error) {
-    return rejectWithValue(
-      error instanceof Error ? error.message : "Unknown error"
-    );
+>(
+  "cartSlice/updateCartDataThunk",
+  async ({ host, token, updateData }, { rejectWithValue }) => {
+    try {
+      const data = await updateDataApi(host, token, updateData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error"
+      );
+    }
   }
-});
-
-
-
+);
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    setUpdateCart: (state, action) => {
+      state.cartData = action.payload;
+    },
+
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCartDataThunk.pending, (state) => {
@@ -68,7 +67,6 @@ const cartSlice = createSlice({
         state.error = action.payload;
       })
 
-
       .addCase(updateCartDataThunk.pending, (state) => {
         state.status = "loadUpdate";
         state.error = null;
@@ -76,17 +74,14 @@ const cartSlice = createSlice({
       .addCase(updateCartDataThunk.fulfilled, (state, action) => {
         state.status = "resolved";
         console.log(action.payload)
-        state.cartData = action.payload; 
+        state.cartData = action.payload;
       })
       .addCase(updateCartDataThunk.rejected, (state, action) => {
         state.status = "rejectUpdate";
         state.error = action.payload;
       });
-
-
-
   },
 });
-export const {} = cartSlice.actions;
+export const {setUpdateCart} = cartSlice.actions;
 
 export default cartSlice.reducer;

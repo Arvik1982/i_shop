@@ -1,16 +1,18 @@
 import { Helmet } from "react-helmet-async";
 import styles from "./auth.module.css";
 import { useGetAuthMutation } from "../../store/authApi/authApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setToken, setUser, setUserId } from "../../store/userSlice/userSlice";
 import { useDispatch } from "react-redux";
 import { TUserResponse } from "../../types/userTypes";
+import { useNavigate } from "react-router-dom";
 
 export default function Authorization() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [inputErr, setInputErr] = useState("");
   const dispatch = useDispatch();
+  
 
   const credentials = {
     username: username,
@@ -29,9 +31,11 @@ export default function Authorization() {
       try {
         const credentialsJson = JSON.stringify(credentials);
         const response = await getAuth(credentialsJson).unwrap();
+
         dispatch(setToken(response.token));
         dispatch(setUser(response.email));
         dispatch(setUserId(response.id));
+
       } catch (err) {
         console.error("Login failed:", err);
       }
@@ -42,6 +46,17 @@ export default function Authorization() {
     }
   };
 
+
+
+
+
+
+
+
+
+
+  
+  
   return (
     <div className={styles.auth__container}>
       <Helmet>

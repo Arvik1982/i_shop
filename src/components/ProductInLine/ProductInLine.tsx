@@ -7,13 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../types/storeTypes";
 
 import { addRemoveItemCart } from "../../helpers/addRemoveItemCart";
+import { useState } from "react";
 
 type TProps = {
   item: TProduct;
 };
 export default function ProductInLine({ item }: TProps) {
-  console.log(item);
-
+  
+  const[disabled, setDisabled]=useState(false)
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.userSlice.token);
 
@@ -51,16 +52,18 @@ export default function ProductInLine({ item }: TProps) {
             {discountedPriceItem(item.price, item.discountPercentage)}$
           </span>
         </div>
+    
       </div>
 
       <div className={styles.item__actions}>
         {!(item.quantity === 0) && <AddProductQuantity product={item} />}
         {!(item.quantity === 0) && (
           <button
+          disabled={disabled}
             onClick={() =>
               cartData &&
               token &&
-              addRemoveItemCart(item.id, "del", cartData, dispatch, token)
+              addRemoveItemCart(item.id, "del", cartData, dispatch, token,setDisabled)
             }
             className={styles.item__actions_del}
           >
@@ -68,7 +71,9 @@ export default function ProductInLine({ item }: TProps) {
           </button>
         )}
         {item.quantity === 0 && <AddToCartButton myType='icon' product={item} />}
+    
       </div>
+     
     </article>
   );
 }

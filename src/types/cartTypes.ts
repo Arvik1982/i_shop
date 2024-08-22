@@ -15,6 +15,13 @@ export interface CartResponse {
   error:{
     status:number
   }
+  discountedTotal: number;
+  id: number;
+  products: Array<TProduct>;
+  total: number;
+  totalProducts: number;
+  totalQuantity: number;
+  userId: number;
 }
 
 export interface CartState {

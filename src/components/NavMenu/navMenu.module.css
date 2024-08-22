@@ -10,6 +10,14 @@
   text-align: left;
   color: rgba(255, 255, 255, 1);
 }
+
+.container__nav_names {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
+}
 .container__nav_link:hover {
   font-size: 14px;
   font-weight: 600;

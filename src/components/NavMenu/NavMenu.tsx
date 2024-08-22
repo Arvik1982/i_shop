@@ -10,16 +10,21 @@ import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
 import { cartsHost } from "../../api/hosts";
 import { useGetUserQuery } from "../../store/authApi/authApi";
 import { setToken } from "../../store/userSlice/userSlice";
+import { IUser } from "../../types/userTypes";
 
 type TProps = {
   menuArr: string[];
+  userNames: IUser | null;
 } & TPropsLink;
 
-export default function NavMenu({ menuArr, setLink }: TProps) {
-
+export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
   const dispatch = useDispatch<AppDispatch>();
-  const token = useSelector((state:RootState) => state.userSlice.token)
-  const { data: user, error, isLoading } = useGetUserQuery(undefined, { skip: !token });  
+  const token = useSelector((state: RootState) => state.userSlice.token);
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useGetUserQuery(undefined, { skip: !token });
   const { cartData } = useSelector((state: RootState) => state.cartSlice);
   const [goodsInCart, setGoodsInCart] = useState<number | null>(null);
 
@@ -32,10 +37,11 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
   };
 
   const userId = user?.id;
-
+  
   useEffect(() => {
     if (!isLoading && userId) {
       const cartApiUrl = `${cartsHost}/user/${userId}`;
+
       dispatch(getCartDataThunk(`${cartApiUrl}`));
     }
 
@@ -45,7 +51,7 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
   }, [dispatch, userId, isLoading]);
 
   useEffect(() => {
-   token&& setGoodsInCart(cartData ? cartData.totalQuantity : null);
+    token && setGoodsInCart(cartData ? cartData.totalQuantity : null);
   }, [cartData]);
 
   return (
@@ -75,6 +81,11 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
           </Link>
         );
       })}
+      {userNames && (
+        <p className={styles.container__nav_names}>
+          <span>{userNames.firstName}</span> <span>{userNames.lastName}</span>
+        </p>
+      )}
     </nav>
   );
 }

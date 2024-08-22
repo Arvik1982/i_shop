@@ -1,15 +1,35 @@
 import { appTitle } from "../../mock/names";
 import styles from "./header.module.css";
 import NavMenu from "../NavMenu/NavMenu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TPropsLink } from "../../types/propsTypes";
 import { onKeyEnterDown } from "../../helpers/onEnterClick";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../types/storeTypes";
+import { useGetUserQuery } from "../../store/authApi/authApi";
+import { useEffect, useState } from "react";
+import { IUser } from "../../types/userTypes";
+import { setToken } from "../../store/userSlice/userSlice";
 
 export default function Header({ setLink }: TPropsLink) {
   const navigate = useNavigate();
-  const token = useSelector((state:RootState) => state.userSlice.token)
+  const dispatch = useDispatch();
+  const token = useSelector((state: RootState) => state.userSlice.token);
+  const { data: user } = useGetUserQuery(undefined, { skip: !token });
+  const [userNames, setUserNames] = useState<IUser | null>(null);
+  const params = useParams();
+
+  useEffect(() => {
+    const lsToken = localStorage.getItem("token");
+    if (!lsToken) {
+      dispatch(setToken(""));
+    }
+  }, [params]);
+
+  useEffect(() => {
+    user && setUserNames(user);
+  }, [user]);
+
   return (
     <header className={styles.header__container}>
       <div className={styles.header__container_box}>
@@ -26,10 +46,13 @@ export default function Header({ setLink }: TPropsLink) {
           <a className={styles.container__logo_text}>{appTitle.appName}</a>
         </div>
 
-        {token&&<NavMenu
-          setLink={setLink}
-          menuArr={["Catalog", "FAQ", "Cart", "Johnson Smith"]}
-        />}
+        {user && token && (
+          <NavMenu
+            setLink={setLink}
+            menuArr={["Catalog", "FAQ", "Cart"]}
+            userNames={userNames}
+          />
+        )}
       </div>
       <div className={styles.header__container_underline}></div>
     </header>

@@ -4,8 +4,9 @@ import { IUser } from "../../types/userTypes";
 const initialState: Partial<IUser> = {
   id:undefined,
   email: "",
-  token: localStorage.getItem("token") || "",
-  refreshToken: localStorage.getItem("refresh") || "",
+  token: localStorage.getItem("token")??'',
+  refreshToken: localStorage.getItem("refresh")??'',
+  commonError:'',
 };
 
 const userSlice = createSlice({
@@ -30,8 +31,13 @@ const userSlice = createSlice({
       state.refreshToken = "";
       localStorage.removeItem("token");
     },
+    setCommonError: (state, action) => {
+      console.log(action.payload)
+      state.commonError = action.payload;
+      
+    },
   },
 });
-export const { setUser,setUserId, setToken, setRefresh, setTokenError } = userSlice.actions;
+export const { setUser,setUserId, setToken, setRefresh, setTokenError, setCommonError } = userSlice.actions;
 
 export default userSlice.reducer;

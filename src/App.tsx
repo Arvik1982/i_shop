@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 function App() {
   const [link, setLink] = useState("");
   const token = useSelector((state: RootState) => state.userSlice.token);
-  const { error, isLoading } = useGetUserQuery(undefined, { skip: !token });
+  const { error, isLoading, data } = useGetUserQuery(undefined, { skip: !token });
 
   return (
     <>
@@ -23,11 +23,7 @@ function App() {
           <AnimatedLoader /> <p>checking credentials...</p>
         </>
       )}
-      {error && "status" in error && (
-        <>
-          <p>error:{error.status}</p>
-        </>
-      )}
+
       {token && <Footer setLink={setLink} />}
     </>
   );

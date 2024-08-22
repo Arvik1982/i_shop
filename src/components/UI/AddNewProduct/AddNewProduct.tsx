@@ -1,69 +1,125 @@
-import {
-  ButtonHTMLAttributes,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { ButtonHTMLAttributes, useState } from "react";
 import CardIcon from "../../Icons/CardIcon";
 import styles from "./addNewProduct.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../types/storeTypes";
-import { updateCartDataThunk } from "../../../store/cartSlice/cartSlice";
+import {
+  setUpdateCart,
+  updateCartDataThunk,
+} from "../../../store/cartSlice/cartSlice";
 import { cartsUpdateHost } from "../../../api/hosts";
-import { TProduct } from "../../../types/commonTypes";
+import { TData, TProduct } from "../../../types/commonTypes";
+import CustomButton from "../CustomButton/CustomButton";
+import { ICartData } from "../../../types/cartTypes";
+import { setCommonError } from "../../../store/userSlice/userSlice";
+import { useAddNewProductToCartMutation } from "../../../store/productApi/addNewProductApi";
 
-type TProps = ButtonHTMLAttributes<HTMLButtonElement>&{product:TProduct};
+type TProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  product: TProduct | TData;
+} & { myType?: string };
 
-export default function AddNewProduct({ product }: TProps) {
+export default function AddNewProduct({ product, myType }: TProps) {
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.userSlice.token);
+  const [disabled, setDisabled] = useState(false);
 
-  const { status, error, cartData } = useSelector(
+  const { error, cartData } = useSelector(
     (state: RootState) => state.cartSlice
   );
 
   error && console.log(error);
 
-  const [newCart, setNewCart] = useState(null);
+  // const addToCartNewProduct = (
+  //   cart: ICartData,
+  //   dispatch: AppDispatch,
+  //   token: string,
+  //   id: number
+  // ) => {
+  //   setDisabled(true);
+  //   const updatedCartData = { ...cart };
+  //   const newProducts = [...updatedCartData.products, { id: id, quantity: 1 }];
 
-  
+  //   cartData &&
+  //     newProducts &&
+  //     token &&
+  //     dispatch(
+  //       updateCartDataThunk({
+  //         host: `${cartsUpdateHost}/${cartData.id}`,
+  //         token,
+  //         updateData: {
+  //           merge: false,
+  //           products: newProducts,
+  //         },
+  //       })
+  //     ).finally(() => {
+  //       setDisabled(false);
+  //     });
+  // };
 
-  const addToCart = () => {
-   
-    const updatedCartData = { ...cartData };
-
-    const newProducts = [...updatedCartData.products, {id: product.id, quantity: 1}]
+  const cartId = cartData && cartData.id;
+  const [addNewProductToCart, { error: updateError }] =
+    useAddNewProductToCartMutation();
 
 
-    updatedCartData &&
-      setNewCart({
-        ...newCart,
+  const handleAddProductRtk = async (cart: ICartData, id: number) => {
+    setDisabled(true) 
+    const updatedCartData = { ...cart };
+    const newProducts = [...updatedCartData.products, { id: id, quantity: 1 }];
 
-        merge: false,
-
-        products: newProducts,
-      });
+    try {
+      
+      const result = await addNewProductToCart({
+        cartId,
+        newProducts,
+      }).unwrap().finally(()=>{setDisabled(false)});
+      dispatch(setUpdateCart(result));
+      console.log("Product added successfully!", result);
+    } catch (err) {
+      console.error("Failed to add product: ", err);
+    }
   };
-
-  useEffect(() => {
-    newCart &&
-      dispatch(
-        updateCartDataThunk({
-          host: cartsUpdateHost,
-          token,
-          updateData: newCart,
-        })
-      );
-  }, [newCart]);
-
+  
   return (
-    <button
-      disabled={status === "loadUpdate"}
-      aria-label="add to cart"
-      className={styles.bottom__right_button}
-      onClick={addToCart}
-    >
-      <CardIcon />
-    </button>
+    <>
+      {myType !== "text" && (
+        <>
+          {updateError && (
+            <p
+            className={styles.error__output}
+            >
+              {updateError.error}
+            </p>
+          )}
+          <button
+            disabled={disabled}
+            aria-label="add to cart"
+            className={styles.bottom__right_button}
+            onClick={() => {
+              token && cartData && handleAddProductRtk(cartData, product.id);
+           }}
+          >
+            <CardIcon />
+          </button>
+        </>
+      )}
+      {myType === "text" && (
+        <>
+          {updateError && (
+            <p
+            className={styles.error__output}
+            >
+              {updateError.error}
+            </p>
+          )}
+          <CustomButton
+            disabled={disabled}
+            onClick={() => {
+              token && cartData && handleAddProductRtk(cartData, product.id);
+              }}
+            buttonname={"Add to card"}
+          />
+        </>
+      )}
+    </>
   );
 }

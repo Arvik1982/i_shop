@@ -8,8 +8,11 @@ export const handleChangeQuantityFunction = (
   action: string,
   cart: ICartData,
   dispatch: AppDispatch,
-  token: string
+  token: string,
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+
+  setDisabled(true)
   const newCart = { ...cart };
   const current = newCart.products.map((el) => {
     if (el.id === id) {
@@ -24,13 +27,12 @@ export const handleChangeQuantityFunction = (
   current &&
     dispatch(
       updateCartDataThunk({
-        host: cartsUpdateHost,
+        host: `${cartsUpdateHost}/${cart.id}`,
         token,
         updateData: {
           merge: false,
-
           products: current,
         },
       })
-    );
+    ).finally(()=>{setDisabled(false)});
 };

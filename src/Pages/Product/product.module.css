@@ -167,6 +167,22 @@
   color: rgba(68, 75, 88, 1);
 }
 
+.error__output {
+  color: red;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  height: 100px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
+}
+
 @media (max-width: 1024px) {
   .product__container {
     max-height: 100%;

@@ -24,6 +24,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
   const [active, setActive] = useState<number | null>(null);
   const [cartProduct, setCartProduct] = useState<number | null>(null);
   const { cartData } = useSelector((state: RootState) => state.cartSlice);
+  
   const navigate = useNavigate();
   const [incomingProducts, setIncomingProducts] = useState<TData[]>([]);
   const [loadingStates, setLoadingStates] = useState(
@@ -61,6 +62,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
               key={index}
               className={styles.container__content_item}
             >
+         
               <picture className={styles.content__item_img}>
                 {loadingStates[index] && (
                   <div className={styles.item__img_placeholder}>
@@ -99,6 +101,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
 
               <div className={styles.content__item_bottom}>
                 <div className={styles.item__bottom_left}>
+                <div className={styles.hover__text}>{el.title}</div>
                   <LinkByName
                     text={el.title}
                     selectedElId={cartProduct ? cartProduct : undefined}
@@ -109,6 +112,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
                     {productDiscounted(el.price, el.discountPercentage)}
                   </span>
                 </div>
+                
                 <div
                   onMouseEnter={() => {
                     setActive(index);

@@ -6,6 +6,8 @@ import AddProductQuantity from "../AddProductQuantity/AddProductQuantity";
 import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import styles from "./buyProduct.module.css";
+import { useEffect, useState } from "react";
+import AddNewProduct from "../UI/AddNewProduct/AddNewProduct";
 
 type TProps = {
   quantity?: number;
@@ -13,11 +15,16 @@ type TProps = {
 };
 
 export default function BuyProduct({ data }: TProps) {
-
   const { error, cartData } = useSelector(
     (state: RootState) => state.cartSlice
   );
 
+  const product = cartData?.products.find((el) => {
+    return el.id === data.id;
+  });
+  const productQuantity = cartData?.products.find((el) => {
+    return el.id === data.id;
+  })?.quantity;
 
   return (
     <article aria-label="buy" className={styles.text__box_buy}>
@@ -35,7 +42,16 @@ export default function BuyProduct({ data }: TProps) {
           </span>
         </p>
       </section>
-      <AddToCartButton myType='text' product={data} />
+      {productQuantity === undefined && data && (
+        <AddNewProduct myType="text" product={data} />
+      )}
+      {productQuantity === 0 && product && (
+        <AddToCartButton myType="text" product={product} />
+      )}
+      {productQuantity !== 0 && product && (
+        <AddProductQuantity product={product} />
+      )}
+
       {/* {quantity && quantity > 0 ? (
         <AddProductQuantity productCount={quantity} />
       ) : (

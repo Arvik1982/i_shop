@@ -13,6 +13,7 @@ import ProductPicture from "../../components/ProductPicture/ProductPicture";
 import PictureFeed from "../../components/PictureFeed/PictureFeed";
 import BuyProduct from "../../components/BuyProduct/BuyProduct";
 
+
 export default function Product() {
   const params = useParams();
 
@@ -20,11 +21,12 @@ export default function Product() {
     params.id
   );
 
-  error&&console.log(error)
 
   const [srcImg, setSrcImg] = useState("");
 
-  const { cartData } = useSelector((state: RootState) => state.cartSlice);
+  const { cartData, error: updateError } = useSelector(
+    (state: RootState) => state.cartSlice
+  );
 
   const quantityReturn = (products: TProduct[], id: string | undefined) => {
     const currentProductQuantity = products.find((product) => {
@@ -48,9 +50,7 @@ export default function Product() {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <>
-          {error.status === 404 ? <ErrorPage /> : <p>{error.data.message}</p>}
-        </>
+        <ErrorPage />
       ) : (
         <main className={styles.product__container}>
           <Helmet>
@@ -108,6 +108,9 @@ export default function Product() {
               <BuyProduct data={data} quantity={quantity} />
             </article>
           </section>
+          {updateError && (
+            <span className={styles.error__output}>{updateError}</span>
+          )}
         </main>
       )}
     </>

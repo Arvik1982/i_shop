@@ -86,11 +86,26 @@
 }
 
 .item__bottom_left {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 5px;
-}
+  max-width: 50%;
 
+}
+.hover__text{
+  background-color: #ffffff;
+  display: none;
+}
+.item__bottom_left:hover .hover__text{
+  display: flex;
+  position: absolute;
+  background-color: #ffffff;
+  top:-15px;
+  left:10px;
+  white-space: nowrap;
+  opacity: 1 
+}
 .hover {
   color: rgba(68, 75, 88, 1);
   text-decoration: underline;
@@ -133,11 +148,9 @@
   color: rgba(255, 255, 255, 1);
 }
 
-
 /*  */
 
 .change__box {
-  
   display: flex;
   align-items: center;
   width: 100%;
@@ -148,13 +161,14 @@
   font-weight: 400;
   line-height: 22.4px;
   text-align: center;
-  width: 188px;
+  max-width: 188px;
+  gap: 10px;
 }
 
-.right__change_box.disabled {
-  opacity: 0.5; 
-  pointer-events: none; 
-  cursor: not-allowed; 
+.change_box.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .much__products {
@@ -168,40 +182,21 @@
   border-radius: 4px;
   background-color: rgba(241, 79, 79, 1);
 }
-@media (max-width: 1024px) {
-  .bottom__right_button_large {
-    width: 50px;
-    height: 50px;
-  }
+.error__output {
+  color: red;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  height: 100px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
 }
-
-@media (max-width: 768px) {
-  .bottom__right_button {
-    width: 40px;
-    height: 40px;
-  }
-  .bottom__right_button_large {
-    width: 40px;
-    height: 40px;
-  }
-  .right__change_box {
-    width: fit-content;
-  }
-}
-@media (max-width: 425px) {
-  .right__change_box {
-    width: fit-content;
-    flex-direction: row;
-  }
-
-  .change__box_count {
-    margin: 2px;
-    font-size: 12px;
-    line-height: 16.6px;
-  }
-}
-
-
 /*  */
 @media (max-width: 1024px) {
   .products__container_box {
@@ -217,9 +212,19 @@
     max-width: 1024px;
   }
 }
+
+@media (max-width: 768px) {
+  .change_box {
+    width: fit-content;
+  }
+}
+
 @media (max-width: 480px) {
   .container__content_item {
     max-width: 475px;
+  }
+  .change_box {
+    flex-direction: row;
   }
   .catalog__container_content {
     grid-template-columns: 320px;

@@ -1,5 +1,5 @@
 export const cartsHost ='https://dummyjson.com/carts'
-export const cartsUpdateHost = 'https://dummyjson.com/carts/44'
+export const cartsUpdateHost = 'https://dummyjson.com/carts/'
 export const productHost ='https://dummyjson.com/products/'
 export const catalogHost = 'https://dummyjson.com/products/'
 export const authHost = 'https://dummyjson.com/'

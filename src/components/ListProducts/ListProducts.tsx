@@ -4,6 +4,8 @@ import ProductListItem from "./ListProductsItem";
 import { TPropsLink } from "../../types/propsTypes";
 import { TProducts } from "../../types/commonTypes";
 import DebouncedSearch from "../DebounsedSearch/debounsedSearch";
+import { useSelector } from "react-redux";
+import { RootState } from "../../types/storeTypes";
 
 type TPropsProducts<T> = TPropsLink & {
   products: T;
@@ -24,7 +26,9 @@ export default function Products({
   paginateData,
 }: TPropsProducts<TProducts>) {
   const focusOnCatalog = useRef<HTMLDivElement>(null);
-
+  const { error: updateError } = useSelector(
+    (state: RootState) => state.cartSlice
+  );
   useEffect(() => {
     if (link === "Catalog") {
       focusOnCatalog.current &&
@@ -53,9 +57,17 @@ export default function Products({
         Catalog
       </h2>
       <DebouncedSearch setSearchInput={setSearchInput} setSkip={setSkip} />
+
       {products.products.length > 0 ? (
-        <div className={styles.catalog__container_content}>
+        <div
+          style={{ position: "relative" }}
+          className={styles.catalog__container_content}
+        >
           <ProductListItem productArr={products.products} />
+
+          {updateError && (
+            <span className={styles.error__output}>{updateError}</span>
+          )}
         </div>
       ) : (
         <p>no items</p>

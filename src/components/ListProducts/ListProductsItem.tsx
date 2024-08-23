@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./listProducts.module.css";
 import { Link, useNavigate } from "react-router-dom";
-
 import { onKeyEnterDown } from "../../helpers/onEnterClick";
-
 import LinkByName from "../UI/LinkByName/LinkByName";
 import { TData } from "../../types/commonTypes";
 import { useSelector } from "react-redux";
@@ -12,9 +10,9 @@ import { ICartData } from "../../types/cartTypes";
 import AnimatedLoader from "../Loader/AnimatedLoader/AnimatedLoader";
 import { imgOnError, imgOnLoad } from "../../helpers/onImgLoad";
 import { productDiscounted } from "../../helpers/helpers";
-import AddNewProduct from "../UI/AddNewProduct/AddNewProduct";
 
 import QuantityButton from "../UI/QuantityButton/QuantityButton";
+import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
 
 type TProps<T> = {
   productArr: T[];
@@ -22,9 +20,15 @@ type TProps<T> = {
 
 export default function ProductListItem({ productArr }: TProps<TData>) {
   const [active, setActive] = useState<number | null>(null);
-  const [cartProduct, setCartProduct] = useState<number | null>(null);
-  const { cartData } = useSelector((state: RootState) => state.cartSlice);
-  
+  const { cartData: cart, leftItemsArr } = useSelector(
+    (state: RootState) => state.cartSlice
+  );
+
+  const cartData = {
+    ...cart,
+    products: leftItemsArr || [],
+  };
+
   const navigate = useNavigate();
   const [incomingProducts, setIncomingProducts] = useState<TData[]>([]);
   const [loadingStates, setLoadingStates] = useState(
@@ -40,7 +44,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
   }, [incomingProducts]);
 
   const isInCart = (cart: ICartData, id: number) => {
-    const quantity = cart.products.find((el) => {
+    const quantity = cart.products?.find((el) => {
       return el.id === id;
     })?.quantity;
 
@@ -62,7 +66,6 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
               key={index}
               className={styles.container__content_item}
             >
-         
               <picture className={styles.content__item_img}>
                 {loadingStates[index] && (
                   <div className={styles.item__img_placeholder}>
@@ -101,10 +104,10 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
 
               <div className={styles.content__item_bottom}>
                 <div className={styles.item__bottom_left}>
-                <div className={styles.hover__text}>{el.title}</div>
+                  <div className={styles.hover__text}>{el.title}</div>
                   <LinkByName
                     text={el.title}
-                    selectedElId={cartProduct ? cartProduct : undefined}
+                    selectedElId={undefined}
                     currentElId={el.id}
                     navRef={`/product/${el.id}`}
                   />
@@ -112,7 +115,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
                     {productDiscounted(el.price, el.discountPercentage)}
                   </span>
                 </div>
-                
+
                 <div
                   onMouseEnter={() => {
                     setActive(index);
@@ -120,7 +123,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
                   className={styles.item__bottom_right}
                 >
                   {cartData && !isInCart(cartData, el.id) && (
-                    <AddNewProduct  product={el} />
+                    <AddToCartButton myType="icon" product={el} />
                   )}
                   {cartData && isInCart(cartData, el.id) && (
                     <div className={styles.change__box}>

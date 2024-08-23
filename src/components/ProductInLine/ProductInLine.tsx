@@ -5,9 +5,8 @@ import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
 import { TProduct } from "../../types/commonTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../types/storeTypes";
-
-import { addRemoveItemCart } from "../../helpers/addRemoveItemCart";
 import { useState } from "react";
+import { removeItemCart } from "../../helpers/removeItemCart";
 
 type TProps = {
   item: TProduct;
@@ -63,7 +62,7 @@ export default function ProductInLine({ item }: TProps) {
             onClick={() =>
               cartData &&
               token &&
-              addRemoveItemCart(item.id, "del", cartData, dispatch, token,setDisabled)
+              removeItemCart(item.id, "del", cartData, dispatch, token,setDisabled)
             }
             className={styles.item__actions_del}
           >

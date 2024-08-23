@@ -1,32 +1,36 @@
 import { Helmet } from "react-helmet-async";
 import ProductInLine from "../../components/ProductInLine/ProductInLine";
 import styles from "./cart.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { ICartData } from "../../types/cartTypes";
+import { useSelector } from "react-redux";
 import { TProduct } from "../../types/commonTypes";
 import { RootState } from "../../types/storeTypes";
-import { setUpdateCart } from "../../store/cartSlice/cartSlice";
 
 export default function Cart() {
-  const { status, error, cartData } = useSelector(
-    (state: RootState) => state.cartSlice
-  );
-const dispatch=useDispatch()
-  const toDeleteNumber = cartData?.products.filter((el) => {
-    return el.quantity === 0;
-  }).length;
+  const {
+    status,
+    error,
+    cartData: cart,
+    leftItemsArr,
+  } = useSelector((state: RootState) => state.cartSlice);
 
-  const totalPriceWithoutDiscount = (cartData: ICartData): number => {
+  const cartData = {
+    ...cart,
+    products: leftItemsArr || [],
+  };
+
+  const totalPriceWithoutDiscount = (cartData: {
+    products: TProduct[];
+  }): number => {
     let result = 0;
-    cartData.products.forEach((product: TProduct) => {
+    cartData.products?.forEach((product: TProduct) => {
       result += product.price * product.quantity;
     });
     return Math.round(result * 100) / 100;
   };
 
-  const totalDiscountedPrice = (cartData: ICartData): number => {
+  const totalDiscountedPrice = (cartData: { products: TProduct[] }): number => {
     let result = 0;
-    cartData.products.forEach((product: TProduct) => {
+    cartData.products?.forEach((product: TProduct) => {
       result +=
         product.price * product.quantity -
         ((product.price * product.discountPercentage) / 100) * product.quantity;
@@ -42,21 +46,8 @@ const dispatch=useDispatch()
           name="description"
           content="Any products from famous brands with worldwide delivery"
         />
-
         {cartData &&
-          cartData.products.map((product, index) => {
-            return (
-              <link
-                key={index}
-                rel="preload"
-                href={product.thumbnail}
-                as="image"
-              />
-            );
-          })}
-
-        {cartData &&
-          cartData.products.map((product, index) => {
+          cartData.products?.map((product, index) => {
             return (
               <link
                 key={index}
@@ -84,7 +75,7 @@ const dispatch=useDispatch()
       {cartData ? (
         <main className={styles.cart__container_content}>
           <section className={styles.container__content_left}>
-            {cartData?.products.map((product, index) => {
+            {cartData?.products?.map((product, index) => {
               return (
                 <article className={styles.left__product_box} key={index}>
                   {" "}
@@ -98,8 +89,7 @@ const dispatch=useDispatch()
               <div className={styles.right__common_item}>
                 <span className={styles.common__item_title}>Total count</span>
                 <span className={styles.common__item_value}>
-                  {cartData?.totalProducts -
-                    ((toDeleteNumber && toDeleteNumber) || 0)}{" "}
+                  {cartData.totalProducts}
                   items
                 </span>
               </div>
@@ -119,15 +109,7 @@ const dispatch=useDispatch()
               </span>
             </div>
           </section>
-          {error && (
-            <span
-            className={styles.error__output}
-            >
-              {error}
-            </span>
-          )}
-
-         
+          {error && <span className={styles.error__output}>{error}</span>}
         </main>
       ) : (
         <main
@@ -136,7 +118,6 @@ const dispatch=useDispatch()
         >
           {" "}
           <p className={styles.common__discount_title}>No items</p>
-
         </main>
       )}
     </div>

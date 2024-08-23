@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { authHost } from "../../api/hosts";
 import { IUser } from "../../types/userTypes";
+import { setToken, setUserId } from "../userSlice/userSlice";
 
 export const getAuthRtq = createApi({
   reducerPath: "authSlice/getAuthUserRtq",
@@ -25,6 +26,17 @@ export const getAuthRtq = createApi({
         method: "POST",
         body: credentials,
       }),
+
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          localStorage.setItem("token", data.token);
+          dispatch(setToken(data.token));
+          dispatch(setUserId(data.id));
+        } catch (error) {
+          console.error("Login failed:", error);
+        }
+      },
     }),
 
     getUser: builder.query<IUser, void>({

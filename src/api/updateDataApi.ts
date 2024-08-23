@@ -1,5 +1,7 @@
-export default async function updateDataApi(host: string, token:string|null, updateData) {
+import { TUpdateData } from "../types/commonTypes";
 
+export default async function updateDataApi(host: string, token:string|null, updateData:TUpdateData) {
+console.log(updateData)
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };

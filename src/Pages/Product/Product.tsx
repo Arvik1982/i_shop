@@ -13,7 +13,6 @@ import ProductPicture from "../../components/ProductPicture/ProductPicture";
 import PictureFeed from "../../components/PictureFeed/PictureFeed";
 import BuyProduct from "../../components/BuyProduct/BuyProduct";
 
-
 export default function Product() {
   const params = useParams();
 
@@ -21,12 +20,18 @@ export default function Product() {
     params.id
   );
 
-
   const [srcImg, setSrcImg] = useState("");
 
-  const { cartData, error: updateError } = useSelector(
-    (state: RootState) => state.cartSlice
-  );
+  const {
+    cartData: cart,
+    leftItemsArr,
+    error: updateError,
+  } = useSelector((state: RootState) => state.cartSlice);
+
+  const cartData = {
+    ...cart,
+    products: leftItemsArr || [],
+  };
 
   const quantityReturn = (products: TProduct[], id: string | undefined) => {
     const currentProductQuantity = products.find((product) => {

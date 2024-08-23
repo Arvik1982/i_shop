@@ -11,19 +11,23 @@ export const handleChangeQuantityFunction = (
   token: string,
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-
-  setDisabled(true)
+  setDisabled(true);
   const newCart = { ...cart };
-  const current = newCart.products.map((el) => {
+  const current = newCart.products?.map((el) => {
     if (el.id === id) {
       return {
         ...el,
-        quantity: action === "+"?el.quantity + 1:el.quantity>0?el.quantity - 1:'',
+        quantity:
+          action === "+"
+            ? el.quantity + 1
+            : el.quantity > 0
+              ? el.quantity - 1
+              : 0,
       };
     }
     return el;
   });
-
+console.log('SDFGHJKL:LKJHGFFGHJKL',current)
   current &&
     dispatch(
       updateCartDataThunk({
@@ -34,5 +38,7 @@ export const handleChangeQuantityFunction = (
           products: current,
         },
       })
-    ).finally(()=>{setDisabled(false)});
+    ).finally(() => {
+      setDisabled(false);
+    });
 };

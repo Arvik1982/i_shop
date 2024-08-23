@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 function App() {
   const [link, setLink] = useState("");
   const token = useSelector((state: RootState) => state.userSlice.token);
-  const { error, isLoading, data } = useGetUserQuery(undefined, { skip: !token });
+  const { isLoading } = useGetUserQuery(undefined, { skip: !token });
 
   return (
     <>

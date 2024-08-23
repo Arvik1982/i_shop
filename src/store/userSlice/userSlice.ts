@@ -2,26 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../../types/userTypes";
 
 const initialState: Partial<IUser> = {
-  id:undefined,
+  id: undefined,
   email: "",
-  token: localStorage.getItem("token")??'',
-  refreshToken: localStorage.getItem("refresh")??'',
-  commonError:'',
+  token: localStorage.getItem("token") ?? "",
+  refreshToken: localStorage.getItem("refresh") ?? "",
+  commonError: "",
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.email = action.payload;
-    },
     setUserId: (state, action) => {
       state.id = action.payload;
     },
     setToken: (state, action) => {
       state.token = action.payload;
-      localStorage.setItem("token", action.payload);
     },
     setRefresh: (state, action) => {
       state.refreshToken = action.payload;
@@ -32,12 +28,17 @@ const userSlice = createSlice({
       localStorage.removeItem("token");
     },
     setCommonError: (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
       state.commonError = action.payload;
-      
     },
   },
 });
-export const { setUser,setUserId, setToken, setRefresh, setTokenError, setCommonError } = userSlice.actions;
+export const {
+  setUserId,
+  setToken,
+  setRefresh,
+  setTokenError,
+  setCommonError,
+} = userSlice.actions;
 
 export default userSlice.reducer;

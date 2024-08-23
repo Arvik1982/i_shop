@@ -25,6 +25,10 @@ export default function Products({
   setLink,
   paginateData,
 }: TPropsProducts<TProducts>) {
+
+
+
+
   const focusOnCatalog = useRef<HTMLDivElement>(null);
   const { error: updateError } = useSelector(
     (state: RootState) => state.cartSlice

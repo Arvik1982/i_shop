@@ -4,10 +4,7 @@ import { TData } from "../../types/commonTypes";
 import { RootState } from "../../types/storeTypes";
 import AddProductQuantity from "../AddProductQuantity/AddProductQuantity";
 import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
-import CustomButton from "../UI/CustomButton/CustomButton";
 import styles from "./buyProduct.module.css";
-import { useEffect, useState } from "react";
-import AddNewProduct from "../UI/AddNewProduct/AddNewProduct";
 
 type TProps = {
   quantity?: number;
@@ -15,16 +12,26 @@ type TProps = {
 };
 
 export default function BuyProduct({ data }: TProps) {
-  const { error, cartData } = useSelector(
-    (state: RootState) => state.cartSlice
-  );
+  const {
+    error,
+    cartData: cart,
+    leftItemsArr,
+  } = useSelector((state: RootState) => state.cartSlice);
 
-  const product = cartData?.products.find((el) => {
+  const cartData = {
+    ...cart,
+    products: leftItemsArr || [],
+  };
+
+  error && console.log(error);
+  const product = cartData?.products?.find((el) => {
     return el.id === data.id;
   });
-  const productQuantity = cartData?.products.find((el) => {
+  const productQuantity = cartData?.products?.find((el) => {
     return el.id === data.id;
   })?.quantity;
+
+  console.log(data);
 
   return (
     <article aria-label="buy" className={styles.text__box_buy}>
@@ -42,21 +49,14 @@ export default function BuyProduct({ data }: TProps) {
           </span>
         </p>
       </section>
-      {productQuantity === undefined && data && (
-        <AddNewProduct myType="text" product={data} />
-      )}
+
       {productQuantity === 0 && product && (
         <AddToCartButton myType="text" product={product} />
       )}
+      {product == undefined && <AddToCartButton myType="text" product={data} />}
       {productQuantity !== 0 && product && (
         <AddProductQuantity product={product} />
       )}
-
-      {/* {quantity && quantity > 0 ? (
-        <AddProductQuantity productCount={quantity} />
-      ) : (
-        <CustomButton tabIndex={0} buttonname={"Add to cart"} />
-      )} */}
     </article>
   );
 }

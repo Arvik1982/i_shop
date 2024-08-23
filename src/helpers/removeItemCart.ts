@@ -3,7 +3,7 @@ import { updateCartDataThunk } from "../store/cartSlice/cartSlice";
 import { ICartData } from "../types/cartTypes";
 import { AppDispatch } from "../types/storeTypes";
 
-export const addRemoveItemCart = (
+export const removeItemCart = (
   id: number,
   action: string,
   cart: ICartData,
@@ -13,7 +13,7 @@ export const addRemoveItemCart = (
 ) => {
   setDisabled(true);
   const newCart = { ...cart };
-  const current = newCart.products.map((el) => {
+  const current = newCart.products?.map((el) => {
     if (el.id === id) {
       return { ...el, quantity: action === "del" ? 0 : 1 };
     }
@@ -21,17 +21,16 @@ export const addRemoveItemCart = (
   });
 
   cart &&
-    current &&
-    dispatch(
-      updateCartDataThunk({
-        host: `${cartsUpdateHost}/${cart.id}`,
-        token,
-        updateData: {
-          merge: false,
-
-          products: current,
-        },
-      })
+  current &&
+  dispatch(
+    updateCartDataThunk({
+      host: `${cartsUpdateHost}/${cart.id}`,
+      token,
+      updateData: {
+        merge: false,
+        products: current.filter((el)=>el.quantity!==0),
+      },
+    })
     ).finally(() => {
       setDisabled(false);
     });

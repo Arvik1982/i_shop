@@ -14,7 +14,7 @@ import { IUser } from "../../types/userTypes";
 
 type TProps = {
   menuArr: string[];
-  userNames: IUser | null;
+  userNames?: IUser | null;
 } & TPropsLink;
 
 export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
@@ -51,7 +51,7 @@ export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
   }, [dispatch, userId, isLoading]);
 
   useEffect(() => {
-    token && setGoodsInCart(cartData ? cartData.totalQuantity : null);
+    token && setGoodsInCart(cartData?.totalQuantity??0);
   }, [cartData]);
 
   return (

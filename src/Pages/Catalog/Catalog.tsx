@@ -18,6 +18,8 @@ export default function Catalog({ link, setLink }: TPropsLink) {
     error,
     isLoading,
   } = useGetCatalogQuery<TCatalog>({ searchInput, skip });
+
+  
   const totalItems = products?.total || 0;
   const handleLoadMore = () => {
     setSkip((prev) => prev + 12);

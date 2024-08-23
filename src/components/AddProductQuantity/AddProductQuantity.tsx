@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../types/storeTypes";
 import { TProduct } from "../../types/commonTypes";
 
-type TProps = { product: TProduct };
+type TProps = { product: TProduct; args?: { productCount?: number } };
 
 export default function AddProductQuantity({ product }: TProps) {
-  const { status, error } = useSelector((state: RootState) => state.cartSlice);
+  const { status, error , cartData, leftItemsArr} = useSelector((state: RootState) => state.cartSlice);
 
   error && console.log(error);
   const [loading, setLoading] = useState(status === "loadUpdate");

@@ -13,7 +13,7 @@ type TProps = {
   HTMLButtonElement
 >;
 export default function QuantityButton({ idProduct, action }: TProps) {
-  const { cartData } = useSelector((state: RootState) => state.cartSlice);
+  const { cartData, leftItemsArr } = useSelector((state: RootState) => state.cartSlice);
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.userSlice.token);
   const[disabled, setDisabled]=useState(false)

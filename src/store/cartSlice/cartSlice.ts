@@ -3,12 +3,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import getDataApi from "../../api/getDataApi";
 import { CartResponse, CartState } from "../../types/cartTypes";
 import updateDataApi from "../../api/updateDataApi";
+import { TUpdateData } from "../../types/commonTypes";
+
 
 const initialState: CartState = {
   status: "start",
   error: null,
   cartData: null,
+  leftItemsArr: null,
 };
+
 const token = localStorage.getItem("token");
 export const getCartDataThunk = createAsyncThunk<
   CartResponse,
@@ -27,11 +31,11 @@ export const getCartDataThunk = createAsyncThunk<
 
 export const updateCartDataThunk = createAsyncThunk<
   CartResponse,
-  { host: string; token: string | null; updateData: object },
+  { host: string; token: string | null; updateData:TUpdateData  },
   { rejectValue: string | null }
 >(
   "cartSlice/updateCartDataThunk",
-  async ({ host, token, updateData }, { rejectWithValue }) => {
+  async ({ host, token, updateData}, { rejectWithValue }) => {
     try {
       const data = await updateDataApi(host, token, updateData);
       return data;
@@ -51,6 +55,10 @@ const cartSlice = createSlice({
       state.cartData = action.payload;
     },
 
+    setLeftItemsArr: (state, action) => {
+      console.log(action.payload);
+      state.leftItemsArr = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -60,7 +68,9 @@ const cartSlice = createSlice({
       })
       .addCase(getCartDataThunk.fulfilled, (state, action) => {
         state.status = "resolved";
+
         state.cartData = action.payload.carts[0];
+        state.leftItemsArr = action.payload.carts[0].products ?? [];
       })
       .addCase(getCartDataThunk.rejected, (state, action) => {
         state.status = "rejected";
@@ -73,8 +83,38 @@ const cartSlice = createSlice({
       })
       .addCase(updateCartDataThunk.fulfilled, (state, action) => {
         state.status = "resolved";
-        console.log(action.payload)
         state.cartData = action.payload;
+
+        if (
+          state.leftItemsArr &&
+          state.leftItemsArr?.length <= action.payload.products.length
+        ) {
+          
+          state.leftItemsArr = action.payload.products;
+        } else if (state.leftItemsArr) {
+
+          console.log('SLISE_AFTER_DELETE_ITEM')
+          const incomingIds = action.payload.products.map((item) => {
+            return item.id;
+          });
+
+          const updatedArray = state.leftItemsArr?.map((item) => {
+            
+            if (!incomingIds.includes(item.id)) {
+              return { ...item, quantity: 0 };
+            }
+            if (incomingIds.includes(item.id)) {
+              
+              const matchingProduct = action.payload.products.find((product) => product.id === item.id);
+              return matchingProduct||item; 
+            }
+            return item
+
+
+          });
+
+          state.leftItemsArr = updatedArray;
+        }
       })
       .addCase(updateCartDataThunk.rejected, (state, action) => {
         state.status = "rejectUpdate";
@@ -82,6 +122,6 @@ const cartSlice = createSlice({
       });
   },
 });
-export const {setUpdateCart} = cartSlice.actions;
+export const { setUpdateCart, setLeftItemsArr } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -5,7 +5,6 @@ export default async function updateDataApi(
   token: string | null,
   updateData: TUpdateData
 ) {
-  console.log(updateData);
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };

@@ -10,11 +10,12 @@ type TProps = {
   action: string;
   count?: number;
   setCount?: Dispatch<SetStateAction<number>>;
+  blockMe?: boolean;
 } & React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
-export default function QuantityButton({ idProduct, action }: TProps) {
+export default function QuantityButton({ idProduct, action, blockMe }: TProps) {
   const { cartData } = useSelector((state: RootState) => state.cartSlice);
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.userSlice.token);
@@ -22,7 +23,7 @@ export default function QuantityButton({ idProduct, action }: TProps) {
 
   return (
     <button
-      disabled={disabled}
+      disabled={disabled || blockMe}
       aria-label="add to cart"
       onClick={(e) => {
         e.stopPropagation();

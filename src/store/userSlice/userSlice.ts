@@ -28,7 +28,6 @@ const userSlice = createSlice({
       localStorage.removeItem("token");
     },
     setCommonError: (state, action) => {
-      console.log(action.payload);
       state.commonError = action.payload;
     },
   },

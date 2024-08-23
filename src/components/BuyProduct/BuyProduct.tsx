@@ -31,8 +31,6 @@ export default function BuyProduct({ data }: TProps) {
     return el.id === data.id;
   })?.quantity;
 
-  console.log(data);
-
   return (
     <article aria-label="buy" className={styles.text__box_buy}>
       <section className={styles.box__buy_prices}>
@@ -55,7 +53,7 @@ export default function BuyProduct({ data }: TProps) {
       )}
       {product == undefined && <AddToCartButton myType="text" product={data} />}
       {productQuantity !== 0 && product && (
-        <AddProductQuantity product={product} />
+        <AddProductQuantity allProduct={data} product={product} />
       )}
     </article>
   );

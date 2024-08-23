@@ -55,7 +55,6 @@ const cartSlice = createSlice({
     },
 
     setLeftItemsArr: (state, action) => {
-      console.log(action.payload);
       state.leftItemsArr = action.payload;
     },
   },
@@ -90,7 +89,6 @@ const cartSlice = createSlice({
         ) {
           state.leftItemsArr = action.payload.products;
         } else if (state.leftItemsArr) {
-          console.log("SLISE_AFTER_DELETE_ITEM");
           const incomingIds = action.payload.products.map((item) => {
             return item.id;
           });

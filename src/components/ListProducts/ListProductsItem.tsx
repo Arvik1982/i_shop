@@ -10,7 +10,6 @@ import { ICartData } from "../../types/cartTypes";
 import AnimatedLoader from "../Loader/AnimatedLoader/AnimatedLoader";
 import { imgOnError, imgOnLoad } from "../../helpers/onImgLoad";
 import { productDiscounted } from "../../helpers/helpers";
-
 import QuantityButton from "../UI/QuantityButton/QuantityButton";
 import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
 
@@ -136,7 +135,16 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
                           }
                         </p>
                       }
-                      <QuantityButton idProduct={el.id} action="+" />
+
+                      <QuantityButton
+                        blockMe={
+                          el.stock ===
+                          cartData?.products.find((elm) => elm.id === el.id)
+                            ?.quantity
+                        }
+                        idProduct={el.id}
+                        action="+"
+                      />
                     </div>
                   )}
                 </div>

@@ -4,19 +4,20 @@ import QuantityButton from "../UI/QuantityButton/QuantityButton";
 import QuantityNumber from "../QuantityNumber/QuantityNumber";
 import { useSelector } from "react-redux";
 import { RootState } from "../../types/storeTypes";
-import { TProduct } from "../../types/commonTypes";
+import { TData, TProduct } from "../../types/commonTypes";
 
 type TProps = {
   product: TProduct;
   args?: { productCount?: number };
+  allProduct?: TData;
   productCount?: number;
 };
 
-export default function AddProductQuantity({ product }: TProps) {
+export default function AddProductQuantity({ product, allProduct }: TProps) {
   const { status, error } = useSelector((state: RootState) => state.cartSlice);
+  const [loading] = useState(status === "loadUpdate");
 
   error && console.log(error);
-  const [loading] = useState(status === "loadUpdate");
 
   return (
     <>
@@ -26,7 +27,11 @@ export default function AddProductQuantity({ product }: TProps) {
         >
           <QuantityButton idProduct={product.id} action="-" />
           <QuantityNumber count={product && product.quantity} />
-          <QuantityButton idProduct={product.id} action="+" />
+          <QuantityButton
+            blockMe={allProduct?.stock === product.quantity}
+            idProduct={product.id}
+            action="+"
+          />
         </div>
       )}
     </>

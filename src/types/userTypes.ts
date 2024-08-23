@@ -5,10 +5,10 @@ export interface IUser {
   id: number;
   image: string;
   lastName: string;
-  refreshToken: string|undefined;
-  token: string|undefined;
+  refreshToken: string | undefined;
+  token: string | undefined;
   username: string;
-  commonError:string
+  commonError: string;
 }
 
 export type TUserResponse = {
@@ -16,6 +16,6 @@ export type TUserResponse = {
   isLoading: boolean;
   error: {
     data: { message: string };
-    status: number|string|undefined;
+    status: number | string | undefined;
   };
 };

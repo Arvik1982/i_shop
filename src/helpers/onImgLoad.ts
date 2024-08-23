@@ -8,7 +8,7 @@ export const imgOnLoad = (
     return newStates;
   });
 };
-
+PageTransitionEvent
 export const imgOnError = (
   index: number,
   setLoadingStates: React.Dispatch<React.SetStateAction<boolean[]>>

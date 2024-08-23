@@ -21,16 +21,16 @@ export const removeItemCart = (
   });
 
   cart &&
-  current &&
-  dispatch(
-    updateCartDataThunk({
-      host: `${cartsUpdateHost}/${cart.id}`,
-      token,
-      updateData: {
-        merge: false,
-        products: current.filter((el)=>el.quantity!==0),
-      },
-    })
+    current &&
+    dispatch(
+      updateCartDataThunk({
+        host: `${cartsUpdateHost}/${cart.id}`,
+        token,
+        updateData: {
+          merge: false,
+          products: current.filter((el) => el.quantity !== 0),
+        },
+      })
     ).finally(() => {
       setDisabled(false);
     });

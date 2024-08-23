@@ -7,8 +7,6 @@ export type TProduct = {
   thumbnail: string;
   title: string;
   total: number;
-  
- 
 };
 
 export type TData = {
@@ -34,7 +32,6 @@ export type TData = {
   title: string;
   warrantyInformation: string;
   weight: number;
-  
 };
 
 export type TSingleProduct = {
@@ -66,8 +63,8 @@ export type TCatalog = {
   isLoading: boolean;
   error: {
     data: { message: string };
-    status: number|string|undefined;
+    status: number | string | undefined;
   };
 };
 
-export type TUpdateData={merge:boolean;products:Array<TProduct|TData>}
+export type TUpdateData = { merge: boolean; products: Array<TProduct | TData> };

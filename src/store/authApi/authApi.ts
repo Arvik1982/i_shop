@@ -27,7 +27,7 @@ export const getAuthRtq = createApi({
         body: credentials,
       }),
 
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem("token", data.token);

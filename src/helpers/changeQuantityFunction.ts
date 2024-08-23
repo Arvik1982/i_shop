@@ -27,7 +27,7 @@ export const handleChangeQuantityFunction = (
     }
     return el;
   });
-console.log('SDFGHJKL:LKJHGFFGHJKL',current)
+  console.log("SDFGHJKL:LKJHGFFGHJKL", current);
   current &&
     dispatch(
       updateCartDataThunk({

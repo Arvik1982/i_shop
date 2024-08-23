@@ -10,7 +10,7 @@ import { addNewProductToCartRtq } from "./productApi/addNewProductApi";
 const store = configureStore({
   reducer: {
     cartSlice: cartSlice,
-    userSlice:userSlice,
+    userSlice: userSlice,
     [getProductDataRtq.reducerPath]: getProductDataRtq.reducer,
     [getCatalogDataRtq.reducerPath]: getCatalogDataRtq.reducer,
     [getAuthRtq.reducerPath]: getAuthRtq.reducer,

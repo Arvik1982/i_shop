@@ -5,7 +5,6 @@ import { CartResponse, CartState } from "../../types/cartTypes";
 import updateDataApi from "../../api/updateDataApi";
 import { TUpdateData } from "../../types/commonTypes";
 
-
 const initialState: CartState = {
   status: "start",
   error: null,
@@ -31,11 +30,11 @@ export const getCartDataThunk = createAsyncThunk<
 
 export const updateCartDataThunk = createAsyncThunk<
   CartResponse,
-  { host: string; token: string | null; updateData:TUpdateData  },
+  { host: string; token: string | null; updateData: TUpdateData },
   { rejectValue: string | null }
 >(
   "cartSlice/updateCartDataThunk",
-  async ({ host, token, updateData}, { rejectWithValue }) => {
+  async ({ host, token, updateData }, { rejectWithValue }) => {
     try {
       const data = await updateDataApi(host, token, updateData);
       return data;
@@ -89,28 +88,24 @@ const cartSlice = createSlice({
           state.leftItemsArr &&
           state.leftItemsArr?.length <= action.payload.products.length
         ) {
-          
           state.leftItemsArr = action.payload.products;
         } else if (state.leftItemsArr) {
-
-          console.log('SLISE_AFTER_DELETE_ITEM')
+          console.log("SLISE_AFTER_DELETE_ITEM");
           const incomingIds = action.payload.products.map((item) => {
             return item.id;
           });
 
           const updatedArray = state.leftItemsArr?.map((item) => {
-            
             if (!incomingIds.includes(item.id)) {
               return { ...item, quantity: 0 };
             }
             if (incomingIds.includes(item.id)) {
-              
-              const matchingProduct = action.payload.products.find((product) => product.id === item.id);
-              return matchingProduct||item; 
+              const matchingProduct = action.payload.products.find(
+                (product) => product.id === item.id
+              );
+              return matchingProduct || item;
             }
-            return item
-
-
+            return item;
           });
 
           state.leftItemsArr = updatedArray;

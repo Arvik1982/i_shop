@@ -52,12 +52,15 @@ export default function AddNewProduct({ product, myType }: TProps) {
 
           const existUpdateArr = newLeftArr.map((leftProduct) => {
             const existProductIndex = newProductsArr.findIndex(
-              (item:TProduct) => item.id === leftProduct.id
+              (item: TProduct) => item.id === leftProduct.id
             );
 
             if (existProductIndex !== -1) {
               // Если продукт существует, увеличиваем его quantity на 1
-              if (leftProduct.quantity === 0&&leftProduct.id===newProductsArr[existProductIndex].id) {
+              if (
+                leftProduct.quantity === 0 &&
+                leftProduct.id === newProductsArr[existProductIndex].id
+              ) {
                 // Если quantity равен 0, устанавливаем его в 1
                 return {
                   ...leftProduct,
@@ -73,7 +76,7 @@ export default function AddNewProduct({ product, myType }: TProps) {
 
           const upd = [...existUpdateArr];
 
-          newProductsArr.forEach((newProduct:TProduct) => {
+          newProductsArr.forEach((newProduct: TProduct) => {
             let isUnique = true;
             newLeftArr.forEach((leftProduct) => {
               if (newProduct.id === leftProduct.id) {

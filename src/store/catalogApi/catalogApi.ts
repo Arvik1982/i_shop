@@ -3,15 +3,16 @@ import { catalogHost } from "../../api/hosts";
 
 export const getCatalogDataRtq = createApi({
   reducerPath: "catalogSlice/getCatalogDataRtq",
-  baseQuery: fetchBaseQuery({ baseUrl: `${catalogHost}`,
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${catalogHost}`,
     prepareHeaders: (headers) => {
-      
       const token = localStorage.getItem("token");
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
-    }, }),
+    },
+  }),
   endpoints: (builder) => ({
     getCatalog: builder.query({
       query: ({ searchInput, skip }) =>

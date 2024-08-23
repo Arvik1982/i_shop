@@ -37,7 +37,7 @@ export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
   };
 
   const userId = user?.id;
-  
+
   useEffect(() => {
     if (!isLoading && userId) {
       const cartApiUrl = `${cartsHost}/user/${userId}`;
@@ -51,7 +51,7 @@ export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
   }, [dispatch, userId, isLoading]);
 
   useEffect(() => {
-    token && setGoodsInCart(cartData?.totalQuantity??0);
+    token && setGoodsInCart(cartData?.totalQuantity ?? 0);
   }, [cartData]);
 
   return (

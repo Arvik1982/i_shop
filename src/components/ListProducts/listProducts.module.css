@@ -91,20 +91,19 @@
   flex-direction: column;
   gap: 5px;
   max-width: 50%;
-
 }
-.hover__text{
+.hover__text {
   background-color: #ffffff;
   display: none;
 }
-.item__bottom_left:hover .hover__text{
+.item__bottom_left:hover .hover__text {
   display: flex;
   position: absolute;
   background-color: #ffffff;
-  top:-15px;
-  left:10px;
+  top: -15px;
+  left: 10px;
   white-space: nowrap;
-  opacity: 1 
+  opacity: 1;
 }
 .hover {
   color: rgba(68, 75, 88, 1);

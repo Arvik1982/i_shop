@@ -12,8 +12,7 @@ type TProps = {
   item: TProduct;
 };
 export default function ProductInLine({ item }: TProps) {
-  
-  const[disabled, setDisabled]=useState(false)
+  const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.userSlice.token);
 
@@ -51,28 +50,34 @@ export default function ProductInLine({ item }: TProps) {
             {discountedPriceItem(item.price, item.discountPercentage)}$
           </span>
         </div>
-    
       </div>
 
       <div className={styles.item__actions}>
         {!(item.quantity === 0) && <AddProductQuantity product={item} />}
         {!(item.quantity === 0) && (
           <button
-          disabled={disabled}
+            disabled={disabled}
             onClick={() =>
               cartData &&
               token &&
-              removeItemCart(item.id, "del", cartData, dispatch, token,setDisabled)
+              removeItemCart(
+                item.id,
+                "del",
+                cartData,
+                dispatch,
+                token,
+                setDisabled
+              )
             }
             className={styles.item__actions_del}
           >
             Delete
           </button>
         )}
-        {item.quantity === 0 && <AddToCartButton myType='icon' product={item} />}
-    
+        {item.quantity === 0 && (
+          <AddToCartButton myType="icon" product={item} />
+        )}
       </div>
-     
     </article>
   );
 }

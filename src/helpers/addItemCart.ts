@@ -5,7 +5,7 @@ import { TData, TProduct } from "../types/commonTypes";
 import { AppDispatch } from "../types/storeTypes";
 
 export const addItemCart = (
-  product: TProduct|TData,
+  product: TProduct | TData,
   id: number,
   action: string,
   cart: ICartData,

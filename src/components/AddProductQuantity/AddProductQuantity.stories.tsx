@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import AddProductQuantity from './AddProductQuantity';
+import AddProductQuantity from "./AddProductQuantity";
 
 const meta = {
   title: "Molecules/AddProductQuantity",
@@ -9,10 +9,10 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof AddProductQuantity>;
 
 export const Default: Story = {
   args: {
-    productCount: 0
-  }
+    productCount: 0,
+  },
 };

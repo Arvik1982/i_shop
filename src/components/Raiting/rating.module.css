@@ -8,7 +8,8 @@
   width: 315px;
   height: 400px;
   background: linear-gradient(#7b68ee, pink);
-  box-shadow: 0 7px 21px rgba(83, 92, 105, 0.12),
+  box-shadow:
+    0 7px 21px rgba(83, 92, 105, 0.12),
     0 -1px 6px 0 rgba(83, 92, 105, 0.06);
 }
 

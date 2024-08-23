@@ -1,5 +1,4 @@
 .right__change_box {
-  
   display: flex;
   align-items: center;
   width: 100%;
@@ -14,9 +13,9 @@
 }
 
 .right__change_box.disabled {
-  opacity: 0.5; 
-  pointer-events: none; 
-  cursor: not-allowed; 
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .much__products {

@@ -1,5 +1,4 @@
-export default async function getDataApi(host: string, token:string|null) {
-
+export default async function getDataApi(host: string, token: string | null) {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -9,7 +8,7 @@ export default async function getDataApi(host: string, token:string|null) {
   }
 
   try {
-    const response = await fetch(`${host}`,{headers});
+    const response = await fetch(`${host}`, { headers });
 
     if (!response.ok) {
       throw new Error(`Network response error:${response.status}`);
@@ -18,7 +17,7 @@ export default async function getDataApi(host: string, token:string|null) {
 
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw error;
   }
 }

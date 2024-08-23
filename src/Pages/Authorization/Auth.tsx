@@ -2,17 +2,12 @@ import { Helmet } from "react-helmet-async";
 import styles from "./auth.module.css";
 import { useGetAuthMutation } from "../../store/authApi/authApi";
 import { useState } from "react";
-import { setToken, setUser, setUserId } from "../../store/userSlice/userSlice";
-import { useDispatch } from "react-redux";
 import { TUserResponse } from "../../types/userTypes";
-import { useNavigate } from "react-router-dom";
 
 export default function Authorization() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [inputErr, setInputErr] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const credentials = {
     username: username,

@@ -9,7 +9,7 @@ const meta: Meta<typeof QuantityButton> = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof QuantityButton>;
 
 const mockSetCount: Dispatch<SetStateAction<number>> = (value) => {
   if (typeof value === "function") {

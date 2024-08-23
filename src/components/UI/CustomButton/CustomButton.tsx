@@ -17,9 +17,8 @@ export default function CustomButton({
 }: TProps) {
   return (
     <button
-    
       tabIndex={1}
-      onClick={()=>onclick}
+      onClick={() => onclick}
       onKeyDown={() => {}}
       aria-label={`${props.buttonname}`}
       {...props}

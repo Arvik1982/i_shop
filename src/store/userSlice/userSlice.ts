@@ -17,6 +17,7 @@ const userSlice = createSlice({
       state.id = action.payload;
     },
     setToken: (state, action) => {
+      console.log(state.token);
       state.token = action.payload;
     },
     setRefresh: (state, action) => {

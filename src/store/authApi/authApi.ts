@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { authHost } from "../../api/hosts";
 import { IUser } from "../../types/userTypes";
-import { setToken, setUserId } from "../userSlice/userSlice";
+import { setRefresh, setToken, setUserId } from "../userSlice/userSlice";
 
 export const getAuthRtq = createApi({
   reducerPath: "authSlice/getAuthUserRtq",
@@ -33,6 +33,40 @@ export const getAuthRtq = createApi({
           localStorage.setItem("token", data.token);
           dispatch(setToken(data.token));
           dispatch(setUserId(data.id));
+          dispatch(setRefresh(data.refreshToken));
+        } catch (error) {
+          console.error("Login failed:", error);
+        }
+      },
+    }),
+
+    sendRefresh: builder.mutation({
+      query: () => {
+        const refreshToken = localStorage.getItem("refresh");
+
+        if (!refreshToken) {
+          throw new Error("Refresh missing");
+        }
+
+        return {
+          url: "/auth/refresh",
+          method: "POST",
+          body: JSON.stringify({
+            refreshToken,
+            expiresInMins: 60,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      },
+
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          localStorage.setItem("token", data.token);
+          dispatch(setToken(data.token));
+          dispatch(setRefresh(data.refreshToken));
         } catch (error) {
           console.error("Login failed:", error);
         }
@@ -48,4 +82,5 @@ export const getAuthRtq = createApi({
   }),
 });
 
-export const { useGetAuthMutation, useGetUserQuery } = getAuthRtq;
+export const { useGetAuthMutation, useGetUserQuery, useSendRefreshMutation } =
+  getAuthRtq;

@@ -6,7 +6,10 @@ import { TPropsLink } from "../../types/propsTypes";
 import { onKeyEnterDown } from "../../helpers/onEnterClick";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../types/storeTypes";
-import { useGetUserQuery } from "../../store/authApi/authApi";
+import {
+  useGetUserQuery,
+  useSendRefreshMutation,
+} from "../../store/authApi/authApi";
 import { useEffect, useState } from "react";
 import { IUser } from "../../types/userTypes";
 import { setToken } from "../../store/userSlice/userSlice";
@@ -15,7 +18,26 @@ export default function Header({ setLink }: TPropsLink) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.userSlice.token);
-  const { data: user } = useGetUserQuery(undefined, { skip: !token });
+  const { data: user, error } = useGetUserQuery(undefined, { skip: !token });
+
+  const [sendRefresh] = useSendRefreshMutation();
+
+  useEffect(() => {
+    if (error && "status" in error) {
+      if (error.status === 401) {
+        console.error("refreshing token...");
+        const refreshToken = async () => {
+          try {
+            await sendRefresh(undefined).unwrap();
+          } catch (refreshError) {
+            console.error("Failed to refresh token:", refreshError);
+          }
+        };
+        refreshToken();
+      }
+    }
+  }, [error]);
+
   const [userNames, setUserNames] = useState<IUser | null>(null);
   const params = useParams();
 

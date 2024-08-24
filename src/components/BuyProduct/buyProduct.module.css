@@ -74,9 +74,6 @@
   .box__buy_prices {
     max-width: 300px;
   }
-}
-
-@media (max-width: 768px) {
   .price_current {
     font-size: 24px;
   }

@@ -12,7 +12,7 @@ export default function Authorization() {
   const credentials = {
     username: username,
     password: password,
-    expiresInMins: 30,
+    expiresInMins: 1
   };
 
   const [getAuth, { isLoading, error }] = useGetAuthMutation<TUserResponse>();

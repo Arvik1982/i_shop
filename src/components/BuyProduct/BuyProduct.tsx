@@ -35,9 +35,9 @@ export default function BuyProduct({ data }: TProps) {
     <article aria-label="buy" className={styles.text__box_buy}>
       <section className={styles.box__buy_prices}>
         <div className={styles.buy__prices_price}>
-          <span className={styles.price_current}>
+          <p className={styles.price_current}>
             ${data && productDiscounted(data.price, data.discountPercentage)}
-          </span>
+          </p>
           <span className={styles.price_discount}>${data && data.price}</span>
         </div>
         <p className={styles.box__buy_text}>

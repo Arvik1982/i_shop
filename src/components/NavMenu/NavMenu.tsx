@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
 import { cartsHost } from "../../api/hosts";
 import { useGetUserQuery } from "../../store/authApi/authApi";
-import { setToken } from "../../store/userSlice/userSlice";
+import { setTokenError } from "../../store/userSlice/userSlice";
 import { IUser } from "../../types/userTypes";
 
 type TProps = {
@@ -46,7 +46,7 @@ export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
     }
 
     if (error && "status" in error) {
-      error.status === 401 && dispatch(setToken(""));
+      error.status === 401 && dispatch(setTokenError());
     }
   }, [dispatch, userId, isLoading]);
 

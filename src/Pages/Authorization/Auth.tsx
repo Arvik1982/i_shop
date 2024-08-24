@@ -3,6 +3,7 @@ import styles from "./auth.module.css";
 import { useGetAuthMutation } from "../../store/authApi/authApi";
 import { useState } from "react";
 import { TUserResponse } from "../../types/userTypes";
+import { onKeyEnterDown } from "../../helpers/onEnterClick";
 
 export default function Authorization() {
   const [username, setUserName] = useState("");
@@ -12,11 +13,11 @@ export default function Authorization() {
   const credentials = {
     username: username,
     password: password,
-    expiresInMins: 1
+    expiresInMins: 1,
   };
 
   const [getAuth, { isLoading, error }] = useGetAuthMutation<TUserResponse>();
-
+  error && console.log(error.data);
   const handleLogin = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -27,7 +28,7 @@ export default function Authorization() {
         const credentialsJson = JSON.stringify(credentials);
         await getAuth(credentialsJson).unwrap();
       } catch (err) {
-        console.error("Login failed:", err);
+        console.log("Login failed");
       }
     }
 
@@ -80,13 +81,21 @@ export default function Authorization() {
             <button
               disabled={isLoading ? true : false}
               onClick={handleLogin}
+              onKeyDown={(e) => {
+                onKeyEnterDown(e, handleLogin);
+              }}
               className={styles.content__box_button}
             >
               Sign in
             </button>
           </article>
-          <p style={{ color: "red" }}>{error && error.data.message}</p>
-          <p style={{ color: "red" }}>{inputErr && inputErr}</p>
+          {error && error?.error && (
+            <p style={{ color: "red" }}>{error?.error}</p>
+          )}
+          {error && error?.data?.message && (
+            <p style={{ color: "red" }}>{error.data.message}</p>
+          )}
+          {inputErr && <p style={{ color: "red" }}>{inputErr && inputErr}</p>}
         </section>
       </main>
     </div>

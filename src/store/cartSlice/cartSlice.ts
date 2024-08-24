@@ -4,6 +4,7 @@ import getDataApi from "../../api/getDataApi";
 import { CartResponse, CartState } from "../../types/cartTypes";
 import updateDataApi from "../../api/updateDataApi";
 import { TUpdateData } from "../../types/commonTypes";
+import { RootState } from "../../types/storeTypes";
 
 const initialState: CartState = {
   status: "start",
@@ -12,14 +13,16 @@ const initialState: CartState = {
   leftItemsArr: null,
 };
 
-const token = localStorage.getItem("token");
 export const getCartDataThunk = createAsyncThunk<
   CartResponse,
   string,
-  { rejectValue: string | null }
->("cartSlice/getCartDataThunk", async (host, { rejectWithValue }) => {
+  { rejectValue: string | null; state: RootState }
+>("cartSlice/getCartDataThunk", async (host, { rejectWithValue, getState }) => {
   try {
-    const data = await getDataApi(host, token);
+    const state = getState();
+    const userToken = state.userSlice.token ?? localStorage.getItem("token");
+
+    const data = await getDataApi(host, userToken);
     return data;
   } catch (error) {
     return rejectWithValue(
@@ -68,7 +71,11 @@ const cartSlice = createSlice({
         state.status = "resolved";
 
         state.cartData = action.payload.carts[0];
-        state.leftItemsArr = action.payload.carts[0].products ?? [];
+        if (action.payload.carts[0]) {
+          state.leftItemsArr = action.payload.carts[0].products ?? [];
+        } else {
+          state.leftItemsArr = [];
+        }
       })
       .addCase(getCartDataThunk.rejected, (state, action) => {
         state.status = "rejected";

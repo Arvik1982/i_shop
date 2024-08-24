@@ -3,8 +3,8 @@ import styles from "./product.module.css";
 import Rating from "../../components/Raiting/Rating";
 import { Helmet } from "react-helmet-async";
 import { useGetProductsQuery } from "../../store/productApi/productApi";
-import { TProduct, TSingleProduct } from "../../types/commonTypes";
-import { useState } from "react";
+import { TSingleProduct } from "../../types/commonTypes";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../types/storeTypes";
 import Loader from "../../components/Loader/Loader";
@@ -12,6 +12,7 @@ import ErrorPage from "../Error/ErrorPage";
 import ProductPicture from "../../components/ProductPicture/ProductPicture";
 import PictureFeed from "../../components/PictureFeed/PictureFeed";
 import BuyProduct from "../../components/BuyProduct/BuyProduct";
+import { quantityReturn } from "../../helpers/helpers";
 
 export default function Product() {
   const params = useParams();
@@ -32,19 +33,17 @@ export default function Product() {
     ...cart,
     products: leftItemsArr || [],
   };
+  const [localError, setLocalError] = useState(false);
+  const errorRef = useRef<HTMLSpanElement | null>(null);
 
-  const quantityReturn = (products: TProduct[], id: string | undefined) => {
-    const currentProductQuantity = products.find((product) => {
-      return product.id === Number(id);
-    });
-
-    if (currentProductQuantity) {
-      return currentProductQuantity.quantity;
+  useEffect(() => {
+    updateError && setLocalError(true);
+  }, [updateError]);
+  useEffect(() => {
+    if (updateError && localError && errorRef.current) {
+      errorRef.current.focus();
     }
-    if (!currentProductQuantity) {
-      return 0;
-    }
-  };
+  }, [updateError, localError]);
 
   const quantity = cartData?.products
     ? quantityReturn(cartData.products, params.id)
@@ -113,8 +112,22 @@ export default function Product() {
               <BuyProduct data={data} quantity={quantity} />
             </article>
           </section>
-          {updateError && (
-            <span className={styles.error__output}>{updateError}</span>
+          {updateError && localError && (
+            <span
+              ref={errorRef}
+              tabIndex={0}
+              onKeyUp={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  setLocalError(false);
+                }
+              }}
+              onClick={() => {
+                setLocalError(false);
+              }}
+              className={styles.error__output}
+            >
+              {updateError}
+            </span>
           )}
         </main>
       )}

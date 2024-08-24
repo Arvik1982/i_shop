@@ -16,10 +16,10 @@ const userSlice = createSlice({
     setUserId: (state, action) => {
       state.id = action.payload;
     },
-    setToken: (state, action) => {      
+    setToken: (state, action) => {
       state.token = action.payload;
-      console.log('NEW TOKEN',state.token);
-      localStorage.setItem('token',action.payload)
+
+      localStorage.setItem("token", action.payload);
     },
     setRefresh: (state, action) => {
       state.refreshToken = action.payload;
@@ -27,7 +27,7 @@ const userSlice = createSlice({
     },
     setTokenError: (state) => {
       state.refreshToken = "";
-      state.token=""
+      state.token = "";
       localStorage.removeItem("token");
     },
     setCommonError: (state, action) => {

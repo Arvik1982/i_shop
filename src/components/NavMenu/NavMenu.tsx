@@ -39,13 +39,14 @@ export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
   const userId = user?.id;
 
   useEffect(() => {
-    if (!isLoading && userId) {
+    if (!isLoading && userId && token) {
       const cartApiUrl = `${cartsHost}/user/${userId}`;
 
       dispatch(getCartDataThunk(`${cartApiUrl}`));
     }
 
     if (error && "status" in error) {
+
       error.status === 401 && dispatch(setTokenError());
     }
   }, [dispatch, userId, isLoading]);

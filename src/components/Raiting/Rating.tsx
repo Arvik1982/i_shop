@@ -1,6 +1,6 @@
 import styles from "./rating.module.css";
 
-type TProps = {
+export type TProps = {
   value: number;
 };
 
@@ -20,7 +20,7 @@ export default function Rating({ value }: TProps) {
         aria-label={`rating of product ${value && rating(value)}% from ten`}
         className={styles.rating__body}
       >
-        <div
+        <div role="progressbar"
           style={{ width: `${Math.round(value) * 20}%` }}
           className={styles.rating__body_active}
         ></div>

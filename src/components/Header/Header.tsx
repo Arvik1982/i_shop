@@ -7,6 +7,7 @@ import { onKeyEnterDown } from "../../helpers/onEnterClick";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../types/storeTypes";
 import {
+  useGetAllUsersQuery,
   useGetUserQuery,
   // useSendRefreshMutation,
 } from "../../store/authApi/authApi";
@@ -19,6 +20,7 @@ export default function Header({ setLink }: TPropsLink) {
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.userSlice.token);
   const { data: user } = useGetUserQuery(undefined, { skip: !token });
+  const { data } = useGetAllUsersQuery(undefined, { skip: !token });
 
   //refresh token
   // const [sendRefresh] = useSendRefreshMutation();

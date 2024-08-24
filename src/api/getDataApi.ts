@@ -4,8 +4,9 @@ export default async function getDataApi(host: string, token: string | null) {
   };
 
   if (token) {
+    console.log('token',token);
     headers.Authorization = `Bearer ${token}`;
-  }
+  
 
   try {
     const response = await fetch(`${host}`, { headers });
@@ -20,4 +21,4 @@ export default async function getDataApi(host: string, token: string | null) {
     console.log(error);
     throw error;
   }
-}
+}}

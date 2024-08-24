@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useRef } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import styles from "./listProducts.module.css";
 import ProductListItem from "./ListProductsItem";
 import { TPropsLink } from "../../types/propsTypes";
@@ -29,6 +29,18 @@ export default function Products({
   const { error: updateError } = useSelector(
     (state: RootState) => state.cartSlice
   );
+  const [localError, setLocalError] = useState(false);
+  const errorRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    updateError && setLocalError(true);
+  }, [updateError]);
+  useEffect(() => {
+    if (updateError && localError && errorRef.current) {
+      errorRef.current.focus();
+    }
+  }, [updateError, localError]);
+
   useEffect(() => {
     if (link === "Catalog") {
       focusOnCatalog.current &&
@@ -65,8 +77,22 @@ export default function Products({
         >
           <ProductListItem productArr={products.products} />
 
-          {updateError && (
-            <span className={styles.error__output}>{updateError}</span>
+          {updateError && localError && (
+            <span
+              ref={errorRef}
+              tabIndex={0}
+              onKeyUp={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  setLocalError(false);
+                }
+              }}
+              onClick={() => {
+                setLocalError(false);
+              }}
+              className={styles.error__output}
+            >
+              {updateError}
+            </span>
           )}
         </div>
       ) : (

@@ -32,7 +32,7 @@ export const getAuthRtq = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          
+          console.log('getTokenApi', data.token)
           dispatch(setToken(data.token));
           dispatch(setUserId(data.id));
           dispatch(setRefresh(data.refreshToken));
@@ -66,7 +66,7 @@ export const getAuthRtq = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log('SEND_REFRESH')
+         
           dispatch(setToken(data.token));
           dispatch(setRefresh(data.refreshToken));
         } catch (error) {
@@ -86,6 +86,7 @@ export const getAuthRtq = createApi({
           const { data } = await queryFulfilled;
           console.log('currentUser',data);
         } catch (error) {
+          console.log('getUser delete token')
           dispatch(setTokenError());
 
           console.error("getUser: Login failed :", error);
@@ -104,6 +105,7 @@ export const getAuthRtq = createApi({
           const { data } = await queryFulfilled;
           console.log('allUsers',data);
         } catch (error) {
+          console.log('getAllUsers delete token')
           dispatch(setTokenError());
           console.error("getUser: Login failed :", error);
         }
@@ -116,5 +118,5 @@ export const getAuthRtq = createApi({
   }),
 });
 
-export const { useGetAuthMutation, useGetUserQuery, useSendRefreshMutation } =
+export const { useGetAuthMutation, useGetUserQuery, useSendRefreshMutation, useGetAllUsersQuery } =
   getAuthRtq;

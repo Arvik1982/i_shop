@@ -70,7 +70,7 @@ export default function ProductListItem({ productArr }: TProps<TData>) {
                   <div className={styles.item__img_placeholder}>
                     <AnimatedLoader />
                   </div>
-                )}
+                 )} 
                 <img
                   style={{ opacity: loadingStates[index] ? 0 : 1 }}
                   className={styles.content__item_img}

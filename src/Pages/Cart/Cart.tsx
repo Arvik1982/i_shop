@@ -72,7 +72,7 @@ export default function Cart() {
           <p className={styles.common__discount_title}>{error && error}</p>
         </div>
       )}
-      {cartData ? (
+      {cartData&&cartData.products.length>0 ? (
         <main className={styles.cart__container_content}>
           <section className={styles.container__content_left}>
             {cartData?.products?.map((product, index) => {

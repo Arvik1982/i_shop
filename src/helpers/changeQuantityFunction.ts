@@ -10,7 +10,7 @@ export const handleChangeQuantityFunction = (
   dispatch: AppDispatch,
   token: string,
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+):void => {
   setDisabled(true);
   const newCart = { ...cart };
   const current = newCart.products?.map((el) => {

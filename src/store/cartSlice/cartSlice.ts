@@ -18,14 +18,12 @@ export const getCartDataThunk = createAsyncThunk<
   string,
   { rejectValue: string | null; state: RootState }
 >("cartSlice/getCartDataThunk", async (host, { rejectWithValue, getState }) => {
-
   try {
     const state = getState();
     const userToken = state.userSlice.token ?? localStorage.getItem("token");
 
     const data = await getDataApi(host, userToken);
     return data;
-    
   } catch (error) {
     return rejectWithValue(
       error instanceof Error ? error.message : "Unknown error"

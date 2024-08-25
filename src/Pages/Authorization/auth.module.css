@@ -1,4 +1,5 @@
 .auth__container {
+  margin-bottom: -5px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -8,7 +9,7 @@
 }
 
 .auth__container_content {
-  margin-top: 150px;
+  margin-top: 143px;
   display: flex;
   flex-direction: column;
   gap: 48px;
@@ -18,6 +19,14 @@
   padding: 0px 0px 138px 0px;
   align-items: center;
 }
+
+.container__content_title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 56px;
+  text-align: center;
+}
+
 .container__content_box {
   display: flex;
   flex-direction: column;

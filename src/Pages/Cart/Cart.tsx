@@ -7,7 +7,10 @@ import { RootState } from "../../types/storeTypes";
 import { useGetUserQuery } from "../../store/authApi/authApi";
 
 export default function Cart() {
-  const { error:userCheckError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+  const { error: userError } = useGetUserQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  userError && console.log(userError);
 
   const {
     status,

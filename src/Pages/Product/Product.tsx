@@ -17,7 +17,8 @@ import { useGetUserQuery } from "../../store/authApi/authApi";
 
 export default function Product() {
   const params = useParams();
-  const { error:userCheckError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+  const { error:userError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+  userError&&console.log(userError) 
   const { data, error, isLoading } = useGetProductsQuery<TSingleProduct>(
     params.id
   );

@@ -7,13 +7,8 @@ import Product from "../Pages/Product/Product";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Authorization from "../Pages/Authorization/Auth";
 import { LoginRedirect } from "./LoginRedirect";
-import { useGetUserQuery } from "../store/authApi/authApi";
 
 export default function AppRoutes({ link, setLink }: TPropsLink) {
-
-
-
-
   return (
     <Routes>
       <Route element={<ProtectedRoute />}>
@@ -24,7 +19,6 @@ export default function AppRoutes({ link, setLink }: TPropsLink) {
       <Route element={<LoginRedirect />}>
         <Route path="/login" element={<Authorization />} />
       </Route>
-
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

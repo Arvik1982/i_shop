@@ -11,8 +11,8 @@ import { useState } from "react";
 import { useGetUserQuery } from "../../store/authApi/authApi";
 
 export default function Catalog({ link, setLink }: TPropsLink) {
-  const { error:userCheckError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
-   
+  const { error:userError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+  userError&&console.log(userError) 
   const [skip, setSkip] = useState(0);
   const [searchInput, setSearchInput] = useState("");
 

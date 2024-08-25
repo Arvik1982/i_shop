@@ -4,8 +4,11 @@ import styles from "./cart.module.css";
 import { useSelector } from "react-redux";
 import { TProduct } from "../../types/commonTypes";
 import { RootState } from "../../types/storeTypes";
+import { useGetUserQuery } from "../../store/authApi/authApi";
 
 export default function Cart() {
+  const { error:userCheckError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+
   const {
     status,
     error,
@@ -72,7 +75,7 @@ export default function Cart() {
           <p className={styles.common__discount_title}>{error && error}</p>
         </div>
       )}
-      {cartData&&cartData.products.length>0 ? (
+      {cartData && cartData.products.length > 0 ? (
         <main className={styles.cart__container_content}>
           <section className={styles.container__content_left}>
             {cartData?.products?.map((product, index) => {

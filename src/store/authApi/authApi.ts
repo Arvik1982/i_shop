@@ -1,8 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { authHost } from "../../api/hosts";
 import { IUser } from "../../types/userTypes";
-import { setRefresh, setToken, setTokenError, setUserId } from "../userSlice/userSlice";
-
+import {
+  setRefresh,
+  setToken,
+  setTokenError,
+  setUserId,
+} from "../userSlice/userSlice";
 
 export const getAuthRtq = createApi({
   reducerPath: "authSlice/getAuthUserRtq",
@@ -11,9 +15,9 @@ export const getAuthRtq = createApi({
 
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
-      
+
       const token = localStorage.getItem("token");
-      
+
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -32,7 +36,6 @@ export const getAuthRtq = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log('getTokenApi', data.token)
           dispatch(setToken(data.token));
           dispatch(setUserId(data.id));
           dispatch(setRefresh(data.refreshToken));
@@ -66,7 +69,7 @@ export const getAuthRtq = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-         
+
           dispatch(setToken(data.token));
           dispatch(setRefresh(data.refreshToken));
         } catch (error) {
@@ -80,15 +83,11 @@ export const getAuthRtq = createApi({
         url: "/auth/me",
         method: "GET",
       }),
-
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          console.log('currentUser',data);
+          await queryFulfilled;
         } catch (error) {
-          console.log('getUser delete token')
           dispatch(setTokenError());
-
           console.error("getUser: Login failed :", error);
         }
       },
@@ -99,24 +98,23 @@ export const getAuthRtq = createApi({
         url: "/users/",
         method: "GET",
       }),
-    
+
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log('allUsers',data);
+          console.log("allUsers", data);
         } catch (error) {
-          console.log('getAllUsers delete token')
           dispatch(setTokenError());
           console.error("getUser: Login failed :", error);
         }
       },
-    
-    })
-
-
-
+    }),
   }),
 });
 
-export const { useGetAuthMutation, useGetUserQuery, useSendRefreshMutation, useGetAllUsersQuery } =
-  getAuthRtq;
+export const {
+  useGetAuthMutation,
+  useGetUserQuery,
+  useSendRefreshMutation,
+  useGetAllUsersQuery,
+} = getAuthRtq;

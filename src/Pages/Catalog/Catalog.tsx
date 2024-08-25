@@ -8,8 +8,11 @@ import { useGetCatalogQuery } from "../../store/catalogApi/catalogApi";
 import { TCatalog } from "../../types/commonTypes";
 import ErrorPage from "../Error/ErrorPage";
 import { useState } from "react";
+import { useGetUserQuery } from "../../store/authApi/authApi";
 
 export default function Catalog({ link, setLink }: TPropsLink) {
+  const { error:userCheckError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
+   
   const [skip, setSkip] = useState(0);
   const [searchInput, setSearchInput] = useState("");
 

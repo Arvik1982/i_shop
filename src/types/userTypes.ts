@@ -15,8 +15,8 @@ export type TUserResponse = {
   data: IUser;
   isLoading: boolean;
   error: {
-    error?:string;
+    error?: string;
     data: { message: string };
     status: number | string | undefined;
-  }
+  };
 };

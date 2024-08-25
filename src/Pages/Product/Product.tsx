@@ -13,10 +13,11 @@ import ProductPicture from "../../components/ProductPicture/ProductPicture";
 import PictureFeed from "../../components/PictureFeed/PictureFeed";
 import BuyProduct from "../../components/BuyProduct/BuyProduct";
 import { quantityReturn } from "../../helpers/helpers";
+import { useGetUserQuery } from "../../store/authApi/authApi";
 
 export default function Product() {
   const params = useParams();
-
+  const { error:userCheckError } = useGetUserQuery(undefined, { refetchOnMountOrArgChange: true });
   const { data, error, isLoading } = useGetProductsQuery<TSingleProduct>(
     params.id
   );

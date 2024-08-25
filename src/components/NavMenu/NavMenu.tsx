@@ -1,7 +1,7 @@
 import styles from "./navMenu.module.css";
 import { appTitleNav } from "../../mock/names";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TPropsLink } from "../../types/propsTypes";
 import { onKeyEnterDown } from "../../helpers/onEnterClick";
 import { AppDispatch, RootState } from "../../types/storeTypes";
@@ -10,21 +10,19 @@ import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
 import { cartsHost } from "../../api/hosts";
 import { useGetUserQuery } from "../../store/authApi/authApi";
 import { setTokenError } from "../../store/userSlice/userSlice";
-import { IUser } from "../../types/userTypes";
 
 type TProps = {
   menuArr: string[];
-  userNames?: IUser | null;
 } & TPropsLink;
 
-export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
+export default function NavMenu({ menuArr, setLink }: TProps) {
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.userSlice.token);
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useGetUserQuery(undefined, { skip: !token });
+
+  const { data: user, isLoading } = useGetUserQuery(undefined, {
+    skip: !token,
+  });
+
   const { cartData } = useSelector((state: RootState) => state.cartSlice);
   const [goodsInCart, setGoodsInCart] = useState<number | null>(null);
 
@@ -39,15 +37,11 @@ export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
   const userId = user?.id;
 
   useEffect(() => {
-    if (!isLoading && userId && token) {
+    if (!isLoading && userId && token 
+      && menuArr.includes("Cart")
+    ) {
       const cartApiUrl = `${cartsHost}/user/${userId}`;
-
       dispatch(getCartDataThunk(`${cartApiUrl}`));
-    }
-
-    if (error && "status" in error) {
-
-      error.status === 401 && dispatch(setTokenError());
     }
   }, [dispatch, userId, isLoading]);
 
@@ -82,9 +76,9 @@ export default function NavMenu({ menuArr, setLink, userNames }: TProps) {
           </Link>
         );
       })}
-      {userNames && (
+      {user && (
         <p className={styles.container__nav_names}>
-          <span>{userNames.firstName}</span> <span>{userNames.lastName}</span>
+          <span>{user.firstName}</span> <span>{user.lastName}</span>
         </p>
       )}
     </nav>

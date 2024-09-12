@@ -1,7 +1,7 @@
 import styles from "./navMenu.module.css";
 import { appTitleNav } from "../../mock/names";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { TPropsLink } from "../../types/propsTypes";
 import { onKeyEnterDown } from "../../helpers/onEnterClick";
 import { AppDispatch, RootState } from "../../types/storeTypes";
@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartDataThunk } from "../../store/cartSlice/cartSlice";
 import { cartsHost } from "../../api/hosts";
 import { useGetUserQuery } from "../../store/authApi/authApi";
-import { setTokenError } from "../../store/userSlice/userSlice";
 
 type TProps = {
   menuArr: string[];
@@ -37,9 +36,7 @@ export default function NavMenu({ menuArr, setLink }: TProps) {
   const userId = user?.id;
 
   useEffect(() => {
-    if (!isLoading && userId && token 
-      && menuArr.includes("Cart")
-    ) {
+    if (!isLoading && userId && token && menuArr.includes("Cart")) {
       const cartApiUrl = `${cartsHost}/user/${userId}`;
       dispatch(getCartDataThunk(`${cartApiUrl}`));
     }

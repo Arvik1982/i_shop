@@ -16,11 +16,11 @@ export default function CustomButton({
   ...props
 }: TProps) {
   return (
-    <button 
-    tabIndex={1}
-    onClick={()=>{}}
-    onKeyDown={()=>{}}
-    aria-label={`${props.buttonname}`}
+    <button
+      tabIndex={1}
+      onClick={() => onclick}
+      onKeyDown={() => {}}
+      aria-label={`${props.buttonname}`}
       {...props}
       style={{
         width: `${props.size?.width}px`,

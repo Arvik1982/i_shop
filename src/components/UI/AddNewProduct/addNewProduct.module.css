@@ -1,0 +1,26 @@
+.bottom__right_button {
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  padding: 16px;
+  gap: 10px;
+  border-radius: 4px;
+  background-color: rgba(241, 79, 79, 1);
+}
+.error__output {
+  color: red;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  height: 100px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
+  z-index: 10000;
+}

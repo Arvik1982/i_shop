@@ -9,8 +9,13 @@ export default function AnswersFaq({ link, setLink }: TPropsLink) {
 
   useEffect(() => {
     if (link === "FAQ") {
-      focusOnFAQ.current &&
-        focusOnFAQ.current.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        focusOnFAQ.current &&
+          focusOnFAQ.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      }, 100);
     }
 
     setLink("");
@@ -34,7 +39,7 @@ export default function AnswersFaq({ link, setLink }: TPropsLink) {
       aria-label="questions ahd answers"
       className={styles.catalog__container_bottom}
     >
-      <article className={styles.container__bottom_faq}>
+      <article ref={focusOnFAQ} className={styles.container__bottom_faq}>
         <h2 tabIndex={0} ref={focusOnFAQ} className={styles.bottom__faq_title}>
           FAQ
         </h2>

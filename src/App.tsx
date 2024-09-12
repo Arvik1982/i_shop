@@ -3,14 +3,28 @@ import "./App.css";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import AppRoutes from "./routes/AppRoutes";
+import AnimatedLoader from "./components/Loader/AnimatedLoader/AnimatedLoader";
+import { useGetUserQuery } from "./store/authApi/authApi";
+import { RootState } from "./types/storeTypes";
+import { useSelector } from "react-redux";
 
 function App() {
   const [link, setLink] = useState("");
+  const token = useSelector((state: RootState) => state.userSlice.token);
+  const { isLoading } = useGetUserQuery(undefined, { skip: !token });
+
   return (
     <>
       <Header setLink={setLink} />
-      <AppRoutes setLink={setLink} link={link} />
-      <Footer setLink={setLink} />
+      {!isLoading && <AppRoutes setLink={setLink} link={link} />}
+      {isLoading && (
+        <>
+          {" "}
+          <AnimatedLoader /> <p>checking credentials...</p>
+        </>
+      )}
+
+      {token && <Footer setLink={setLink} />}
     </>
   );
 }

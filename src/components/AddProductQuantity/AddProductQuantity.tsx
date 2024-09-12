@@ -1,66 +1,39 @@
 import { useState } from "react";
-import SignIcon from "../Icons/SignIcopn";
 import styles from "./addQuantity.module.css";
+import QuantityButton from "../UI/QuantityButton/QuantityButton";
+import QuantityNumber from "../QuantityNumber/QuantityNumber";
+import { useSelector } from "react-redux";
+import { RootState } from "../../types/storeTypes";
+import { TData, TProduct } from "../../types/commonTypes";
 
-interface ICountFunc {
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
-  action: string;
-  currentCount: number;
-  func: React.Dispatch<React.SetStateAction<number>>;
-}
+type TProps = {
+  product: TProduct;
+  args?: { productCount?: number };
+  allProduct?: TData;
+  productCount?: number;
+};
 
-export default function AddProductQuantity() {
+export default function AddProductQuantity({ product, allProduct }: TProps) {
+  const { status, error } = useSelector((state: RootState) => state.cartSlice);
+  const [loading] = useState(status === "loadUpdate");
 
-  const [count, setCount] = useState<number>(0);
-
-  const handleCount = (args: ICountFunc): void => {
-    args.e.stopPropagation();
-
-    if (args.action === "+") {
-      args.currentCount !== null ? args.func((args.currentCount += 1)) : "";
-    }
-    if (args.action === "-") {
-      args.currentCount !== null
-        ? args.currentCount > 0 && args.func((args.currentCount -= 1))
-        : "";
-    }
-  };
+  error && console.log(error);
 
   return (
-    <div className={styles.right__change_box}>
-      <button
-        aria-label="add to cart"
-        onClick={(e) => {
-          handleCount({
-            e: e,
-            action: "-",
-            currentCount: count,
-            func: setCount,
-          });
-        }}
-        className={`${count<14?styles.bottom__right_button:styles.bottom__right_button_large}`}
-      
-      >
-        <SignIcon sign={"-"} />
-      </button>
-      <span className={styles.change__box_count}>
-        {count !== null ? `${count} item` : "0 item"}
-      </span>
-      <button
-        aria-label="add to cart"
-        onClick={(e) => {
-          handleCount({
-            e: e,
-            action: "+",
-            currentCount: count,
-            func: setCount,
-          });
-        }}
-        className={`${count<14?styles.bottom__right_button:styles.bottom__right_button_large}`}
-        
-      >
-        <SignIcon sign={"+"} />
-      </button>
-    </div>
+    <>
+      {product && (
+        <div
+          className={`${styles.right__change_box} ${loading ? styles.disabled : ""}`}
+        >
+          <QuantityButton idProduct={product.id} action="-" />
+          <QuantityNumber count={product && product.quantity} />
+          <QuantityButton
+            blockMe={allProduct?.stock === product.quantity}
+            idProduct={product.id}
+            action="+"
+          />
+        </div>
+      )}
+    </>
   );
 }

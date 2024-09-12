@@ -1,83 +1,83 @@
-import { useState } from "react";
 import AddProductQuantity from "../AddProductQuantity/AddProductQuantity";
 import styles from "./productInLine.module.css";
-import CardIcon from "../Icons/CardIcon";
 import { Link } from "react-router-dom";
+import AddToCartButton from "../UI/AddToCartButton/AddToCardButton";
+import { TProduct } from "../../types/commonTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../types/storeTypes";
+import { useState } from "react";
+import { removeItemCart } from "../../helpers/removeItemCart";
 
 type TProps = {
-  item: { id: number; img: string };
+  item: TProduct;
 };
 export default function ProductInLine({ item }: TProps) {
-  const [toDelete, setToDelete] = useState<number[]>([4]);
+  const [disabled, setDisabled] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const token = useSelector((state: RootState) => state.userSlice.token);
 
-  const handleDeleteItem = (
-    itemId: number,
-    e: React.MouseEvent<
-      HTMLDivElement | HTMLButtonElement | HTMLAnchorElement,
-      MouseEvent
-    >
-  ): void => {
-    e.stopPropagation();
+  const { error, cartData } = useSelector(
+    (state: RootState) => state.cartSlice
+  );
 
-    if (!toDelete.includes(itemId)) {
-      setToDelete([...toDelete, itemId]);
-    }
-    if (toDelete.includes(itemId)) {
-      setToDelete(
-        toDelete.filter((el) => {
-          return el !== itemId;
-        })
-      );
-    }
-  };
-  const isDeleted = (itemId: number) => {
-    return toDelete.includes(itemId);
+  error && console.log(error);
+
+  const isDeleted = (item: { quantity: number }) => {
+    return item.quantity === 0;
   };
 
+  const discountedPriceItem = (price: number, discount: number) => {
+    return Math.round((price - (price * discount) / 100) * 100) / 100;
+  };
   return (
-    <div className={`${styles.content__left_item}`}>
+    <article className={`${styles.content__left_item}`}>
       <div
-        style={isDeleted(item.id) ? { opacity: "0.6" } : {}}
+        style={isDeleted(item) ? { opacity: "0.6" } : {}}
         className={styles.left__item_description}
       >
-        <div className={styles.img__container}>
-          <img className={styles.img} src={item.img} alt="product image" />
-        </div>
+        <figure className={styles.img__container}>
+          <img
+            className={styles.img}
+            src={item.thumbnail}
+            alt="product image"
+          />
+        </figure>
         <div className={styles.item__description_content}>
           <Link aria-label={`link to product page`} to={`/product/${item.id}`}>
-            <h2 className={styles.item__title}>
-              Essence Mascara Lash Princess
-            </h2>
+            <h2 className={styles.item__title}>{item.title}</h2>
           </Link>
           <span aria-label="price" className={styles.item__price}>
-            $110
+            {discountedPriceItem(item.price, item.discountPercentage)}$
           </span>
         </div>
       </div>
 
       <div className={styles.item__actions}>
-        {!isDeleted(item.id) && <AddProductQuantity />}
-        {!isDeleted(item.id) && (
-          <a
-            onClick={(e) => {
-              handleDeleteItem(item.id, e);
-            }}
+        {!(item.quantity === 0) && <AddProductQuantity product={item} />}
+        {!(item.quantity === 0) && (
+          <button
+            disabled={disabled}
+            onClick={() =>
+              cartData &&
+              token &&
+              removeItemCart(
+                item.id,
+                "del",
+                cartData,
+                dispatch,
+                token,
+                setDisabled
+              )
+            }
             className={styles.item__actions_del}
           >
             Delete
-          </a>
-        )}
-        {isDeleted(item.id) && (
-          <button
-            onClick={(e) => {
-              handleDeleteItem(item.id, e);
-            }}
-            className={styles.item__actions_add}
-          >
-            <CardIcon />
           </button>
         )}
+        {item.quantity === 0 && (
+          <AddToCartButton myType="icon" product={item} />
+        )}
       </div>
-    </div>
+    </article>
   );
 }

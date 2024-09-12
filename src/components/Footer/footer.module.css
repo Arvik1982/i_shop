@@ -10,7 +10,6 @@
   padding-bottom: 23px;
   box-sizing: border-box;
   color: rgba(255, 255, 255, 1);
-  
 }
 .footer__container_box {
   width: 100%;
@@ -19,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.footer__container_logo{
+.footer__container_logo {
   cursor: pointer;
 }
 .container__logo_text {
@@ -30,7 +29,7 @@
 }
 
 @media (max-width: 1024px) {
-  .footer__container{
+  .footer__container {
     padding: 10px;
     box-sizing: border-box;
   }
@@ -42,7 +41,7 @@
   }
 }
 @media (max-width: 320px) {
-  .footer__container{
+  .footer__container {
     max-width: 320px;
   }
 }

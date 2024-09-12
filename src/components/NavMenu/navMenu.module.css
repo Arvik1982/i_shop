@@ -10,6 +10,14 @@
   text-align: left;
   color: rgba(255, 255, 255, 1);
 }
+
+.container__nav_names {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
+}
 .container__nav_link:hover {
   font-size: 14px;
   font-weight: 600;
@@ -47,6 +55,12 @@
   }
 }
 
+/* @media (max-width: 425px) {
+  .header__container_nav {
+    display: none;
+  }
+} */
+
 @media (max-width: 768px) {
   .header__container_nav {
     gap: 20px;
@@ -56,12 +70,10 @@
     font-size: 12px;
 
     line-height: 15px;
-
   }
   .container__nav_link:hover {
     font-size: 12px;
 
     line-height: 15px;
- 
   }
 }

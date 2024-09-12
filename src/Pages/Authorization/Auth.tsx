@@ -88,6 +88,7 @@ export default function Authorization() {
             >
               Sign in
             </button>
+            <span> login:jacksone pass:jacksonepass</span>
           </article>
           {error && error?.error && (
             <p style={{ color: "red" }}>{error?.error}</p>
